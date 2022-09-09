@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/open_device.dir/find_open.cpp.o  -o open_device  /usr/lib/x86_64-linux-gnu/libk4a.so.1.4.1 

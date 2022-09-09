@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/hello.dir/test.cpp.o  -o hello  /usr/lib/x86_64-linux-gnu/libk4a.so.1.4.1 

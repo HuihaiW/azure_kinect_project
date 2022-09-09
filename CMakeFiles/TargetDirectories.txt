@@ -1,0 +1,5 @@
+/home/huihai/azure_kinect/CMakeFiles/rebuild_cache.dir
+/home/huihai/azure_kinect/CMakeFiles/edit_cache.dir
+/home/huihai/azure_kinect/CMakeFiles/open_device.dir
+/home/huihai/azure_kinect/CMakeFiles/first.dir
+/home/huihai/azure_kinect/CMakeFiles/hello.dir

@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/first.dir/open_stop.cpp.o  -o first  /usr/lib/x86_64-linux-gnu/libk4a.so.1.4.1 
