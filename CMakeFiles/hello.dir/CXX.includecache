@@ -6,13 +6,3 @@
 
 #IncludeRegexTransform: 
 
-/home/huihai/azure_kinect/test.cpp
-k4a/k4a.h
--
-stdio.h
--
-stdlib.h
--
-iostream
--
-

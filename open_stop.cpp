@@ -1,7 +1,10 @@
 #include <k4a/k4a.h>
 #include <iostream>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 using namespace std;
+using namespace cv;
 
 int main(int argc, char** argv){
     uint32_t count = k4a_device_get_installed_count();
@@ -26,8 +29,8 @@ int main(int argc, char** argv){
 
     k4a_device_configuration_t config = K4A_DEVICE_CONFIG_INIT_DISABLE_ALL;
     config.camera_fps		= K4A_FRAMES_PER_SECOND_30;
-    config.color_format		= K4A_IMAGE_FORMAT_COLOR_MJPG;
-    config.color_resolution	= K4A_COLOR_RESOLUTION_2160P;
+    config.color_format		= K4A_IMAGE_FORMAT_COLOR_BGRA32;
+    config.color_resolution	= K4A_COLOR_RESOLUTION_720P;
     config.depth_mode		= K4A_DEPTH_MODE_NFOV_UNBINNED;
 
     k4a_capture_t capture;
@@ -36,6 +39,8 @@ int main(int argc, char** argv){
 	k4a_device_close(device);
 	return 1;
     }
+    namedWindow("depth", WINDOW_NORMAL);
+    namedWindow("color", WINDOW_NORMAL);
 
     while(true){
 	switch(k4a_device_get_capture(device, &capture, 100)){
@@ -49,13 +54,41 @@ int main(int argc, char** argv){
 		cout << "Failed to read a capture" << endl;
 		break; 
 	}
-	k4a_image_t image = k4a_capture_get_depth_image(capture);
-	if(image != NULL){
-	    cout << "Depth16 res: " << k4a_image_get_height_pixels(image)<< "x" << k4a_image_get_width_pixels(image)<< ", stride: " << k4a_image_get_stride_bytes(image) << endl;
-	    k4a_image_release(image);
+	k4a_image_t depth_image = k4a_capture_get_depth_image(capture);
+	k4a_image_t color_image = k4a_capture_get_color_image(capture);
+	
+	if(depth_image != NULL){
+	    k4a_image_format_t format = k4a_image_get_format(depth_image);
+	    uint8_t* buffer = k4a_image_get_buffer(depth_image);
+	    int rows = k4a_image_get_height_pixels(depth_image);
+	    int cols = k4a_image_get_width_pixels(depth_image);
+
+	    cv::Mat depthMat(rows, cols, CV_16U, (void*)buffer, cv::Mat::AUTO_STEP);
+
+	    imshow("depth", depthMat);
 	}
-	cout << image << endl;
+
+	if(color_image != NULL){
+	    uint8_t* buffer_color = k4a_image_get_buffer(color_image);
+
+	    int rows = k4a_image_get_height_pixels(color_image);
+	    int cols = k4a_image_get_width_pixels(color_image);
+	    
+	    cv::Mat colorMat(rows, cols, CV_8UC4, (void*)buffer_color, cv::Mat::AUTO_STEP);
+
+	    imshow("color", colorMat);
+	}
+	if (waitKey(10) == 27){
+	    break;
+	}
+
+
+	k4a_image_release(depth_image);
+	k4a_image_release(color_image);
+        k4a_capture_release(capture);
     }
+    destroyWindow("depth");
+    destroyWindow("color");
     k4a_capture_release(capture);
 
     k4a_device_stop_cameras(device);
