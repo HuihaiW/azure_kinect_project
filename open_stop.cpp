@@ -41,6 +41,7 @@ int main(int argc, char** argv){
     }
     namedWindow("depth", WINDOW_NORMAL);
     namedWindow("color", WINDOW_NORMAL);
+    namedWindow("ir", WINDOW_NORMAL);
 
     while(true){
 	switch(k4a_device_get_capture(device, &capture, 100)){
@@ -56,6 +57,7 @@ int main(int argc, char** argv){
 	}
 	k4a_image_t depth_image = k4a_capture_get_depth_image(capture);
 	k4a_image_t color_image = k4a_capture_get_color_image(capture);
+	k4a_image_t ir_image = k4a_capture_get_ir_image(capture);
 	
 	if(depth_image != NULL){
 	    k4a_image_format_t format = k4a_image_get_format(depth_image);
@@ -63,10 +65,24 @@ int main(int argc, char** argv){
 	    int rows = k4a_image_get_height_pixels(depth_image);
 	    int cols = k4a_image_get_width_pixels(depth_image);
 
+	    cout << "depth row: " << rows << "; " << " depth cols: " << cols << endl;
 	    cv::Mat depthMat(rows, cols, CV_16U, (void*)buffer, cv::Mat::AUTO_STEP);
 
 	    imshow("depth", depthMat);
 	}
+
+	if(ir_image != NULL){
+	    uint8_t* buffer_ir = k4a_image_get_buffer(ir_image);
+	    int rows = k4a_image_get_height_pixels(ir_image);
+	    int cols = k4a_image_get_width_pixels(ir_image);
+
+	    cout << "ir row: " << rows << "; " << " ir cols: " << cols << endl;
+	    cv::Mat irMat(rows, cols, CV_16U, (void*)buffer_ir, cv::Mat::AUTO_STEP);
+
+	    imshow("ir", irMat);
+	    
+	}
+
 
 	if(color_image != NULL){
 	    uint8_t* buffer_color = k4a_image_get_buffer(color_image);
@@ -74,10 +90,13 @@ int main(int argc, char** argv){
 	    int rows = k4a_image_get_height_pixels(color_image);
 	    int cols = k4a_image_get_width_pixels(color_image);
 	    
+	    cout << "color row: " << rows << "; " << " color cols: " << cols << endl;
+	    
 	    cv::Mat colorMat(rows, cols, CV_8UC4, (void*)buffer_color, cv::Mat::AUTO_STEP);
 
 	    imshow("color", colorMat);
 	}
+
 	if (waitKey(10) == 27){
 	    break;
 	}
@@ -85,10 +104,12 @@ int main(int argc, char** argv){
 
 	k4a_image_release(depth_image);
 	k4a_image_release(color_image);
+	k4a_image_release(ir_image);
         k4a_capture_release(capture);
     }
     destroyWindow("depth");
     destroyWindow("color");
+    destroyWindow("ir");
     k4a_capture_release(capture);
 
     k4a_device_stop_cameras(device);
