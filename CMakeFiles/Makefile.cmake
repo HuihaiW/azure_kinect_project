@@ -57,6 +57,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/open_device.dir/DependInfo.cmake"
-  "CMakeFiles/first.dir/DependInfo.cmake"
+  "CMakeFiles/pointCloud.dir/DependInfo.cmake"
+  "CMakeFiles/images.dir/DependInfo.cmake"
   "CMakeFiles/hello.dir/DependInfo.cmake"
   )

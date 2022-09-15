@@ -124,17 +124,30 @@ open_device/fast:
 .PHONY : open_device/fast
 
 #=============================================================================
-# Target rules for targets named first
+# Target rules for targets named pointCloud
 
 # Build rule for target.
-first: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 first
-.PHONY : first
+pointCloud: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pointCloud
+.PHONY : pointCloud
 
 # fast build rule for target.
-first/fast:
-	$(MAKE) -f CMakeFiles/first.dir/build.make CMakeFiles/first.dir/build
-.PHONY : first/fast
+pointCloud/fast:
+	$(MAKE) -f CMakeFiles/pointCloud.dir/build.make CMakeFiles/pointCloud.dir/build
+.PHONY : pointCloud/fast
+
+#=============================================================================
+# Target rules for targets named images
+
+# Build rule for target.
+images: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 images
+.PHONY : images
+
+# fast build rule for target.
+images/fast:
+	$(MAKE) -f CMakeFiles/images.dir/build.make CMakeFiles/images.dir/build
+.PHONY : images/fast
 
 #=============================================================================
 # Target rules for targets named hello
@@ -176,32 +189,59 @@ find_open.cpp.s:
 	$(MAKE) -f CMakeFiles/open_device.dir/build.make CMakeFiles/open_device.dir/find_open.cpp.s
 .PHONY : find_open.cpp.s
 
-open_stop.o: open_stop.cpp.o
+src/get_images.o: src/get_images.cpp.o
 
-.PHONY : open_stop.o
+.PHONY : src/get_images.o
 
 # target to build an object file
-open_stop.cpp.o:
-	$(MAKE) -f CMakeFiles/first.dir/build.make CMakeFiles/first.dir/open_stop.cpp.o
-.PHONY : open_stop.cpp.o
+src/get_images.cpp.o:
+	$(MAKE) -f CMakeFiles/images.dir/build.make CMakeFiles/images.dir/src/get_images.cpp.o
+.PHONY : src/get_images.cpp.o
 
-open_stop.i: open_stop.cpp.i
+src/get_images.i: src/get_images.cpp.i
 
-.PHONY : open_stop.i
+.PHONY : src/get_images.i
 
 # target to preprocess a source file
-open_stop.cpp.i:
-	$(MAKE) -f CMakeFiles/first.dir/build.make CMakeFiles/first.dir/open_stop.cpp.i
-.PHONY : open_stop.cpp.i
+src/get_images.cpp.i:
+	$(MAKE) -f CMakeFiles/images.dir/build.make CMakeFiles/images.dir/src/get_images.cpp.i
+.PHONY : src/get_images.cpp.i
 
-open_stop.s: open_stop.cpp.s
+src/get_images.s: src/get_images.cpp.s
 
-.PHONY : open_stop.s
+.PHONY : src/get_images.s
 
 # target to generate assembly for a file
-open_stop.cpp.s:
-	$(MAKE) -f CMakeFiles/first.dir/build.make CMakeFiles/first.dir/open_stop.cpp.s
-.PHONY : open_stop.cpp.s
+src/get_images.cpp.s:
+	$(MAKE) -f CMakeFiles/images.dir/build.make CMakeFiles/images.dir/src/get_images.cpp.s
+.PHONY : src/get_images.cpp.s
+
+src/get_pointCloud.o: src/get_pointCloud.cpp.o
+
+.PHONY : src/get_pointCloud.o
+
+# target to build an object file
+src/get_pointCloud.cpp.o:
+	$(MAKE) -f CMakeFiles/pointCloud.dir/build.make CMakeFiles/pointCloud.dir/src/get_pointCloud.cpp.o
+.PHONY : src/get_pointCloud.cpp.o
+
+src/get_pointCloud.i: src/get_pointCloud.cpp.i
+
+.PHONY : src/get_pointCloud.i
+
+# target to preprocess a source file
+src/get_pointCloud.cpp.i:
+	$(MAKE) -f CMakeFiles/pointCloud.dir/build.make CMakeFiles/pointCloud.dir/src/get_pointCloud.cpp.i
+.PHONY : src/get_pointCloud.cpp.i
+
+src/get_pointCloud.s: src/get_pointCloud.cpp.s
+
+.PHONY : src/get_pointCloud.s
+
+# target to generate assembly for a file
+src/get_pointCloud.cpp.s:
+	$(MAKE) -f CMakeFiles/pointCloud.dir/build.make CMakeFiles/pointCloud.dir/src/get_pointCloud.cpp.s
+.PHONY : src/get_pointCloud.cpp.s
 
 test.o: test.cpp.o
 
@@ -237,16 +277,20 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... edit_cache"
 	@echo "... open_device"
-	@echo "... first"
+	@echo "... edit_cache"
+	@echo "... pointCloud"
+	@echo "... images"
 	@echo "... hello"
 	@echo "... find_open.o"
 	@echo "... find_open.i"
 	@echo "... find_open.s"
-	@echo "... open_stop.o"
-	@echo "... open_stop.i"
-	@echo "... open_stop.s"
+	@echo "... src/get_images.o"
+	@echo "... src/get_images.i"
+	@echo "... src/get_images.s"
+	@echo "... src/get_pointCloud.o"
+	@echo "... src/get_pointCloud.i"
+	@echo "... src/get_pointCloud.s"
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"
