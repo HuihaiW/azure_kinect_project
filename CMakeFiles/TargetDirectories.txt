@@ -1,4 +1,6 @@
 /home/huihai/azure_kinect/CMakeFiles/rebuild_cache.dir
+/home/huihai/azure_kinect/CMakeFiles/pointCloudCppExample.dir
+/home/huihai/azure_kinect/CMakeFiles/pointCloudCpp.dir
 /home/huihai/azure_kinect/CMakeFiles/open_device.dir
 /home/huihai/azure_kinect/CMakeFiles/edit_cache.dir
 /home/huihai/azure_kinect/CMakeFiles/pointCloud.dir

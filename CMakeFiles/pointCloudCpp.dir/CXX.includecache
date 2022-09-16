@@ -6,12 +6,16 @@
 
 #IncludeRegexTransform: 
 
-/home/huihai/azure_kinect/src/get_pointCloud.cpp
+/home/huihai/azure_kinect/src/get_pointCloud_cpp.cpp
 k4a/k4a.h
+-
+k4a/k4a.hpp
 -
 iostream
 -
 opencv2/core/core.hpp
+-
+opencv2/opencv.hpp
 -
 opencv2/highgui/highgui.hpp
 -

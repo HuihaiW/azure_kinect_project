@@ -111,6 +111,32 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named pointCloudCppExample
+
+# Build rule for target.
+pointCloudCppExample: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pointCloudCppExample
+.PHONY : pointCloudCppExample
+
+# fast build rule for target.
+pointCloudCppExample/fast:
+	$(MAKE) -f CMakeFiles/pointCloudCppExample.dir/build.make CMakeFiles/pointCloudCppExample.dir/build
+.PHONY : pointCloudCppExample/fast
+
+#=============================================================================
+# Target rules for targets named pointCloudCpp
+
+# Build rule for target.
+pointCloudCpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pointCloudCpp
+.PHONY : pointCloudCpp
+
+# fast build rule for target.
+pointCloudCpp/fast:
+	$(MAKE) -f CMakeFiles/pointCloudCpp.dir/build.make CMakeFiles/pointCloudCpp.dir/build
+.PHONY : pointCloudCpp/fast
+
+#=============================================================================
 # Target rules for targets named open_device
 
 # Build rule for target.
@@ -243,6 +269,60 @@ src/get_pointCloud.cpp.s:
 	$(MAKE) -f CMakeFiles/pointCloud.dir/build.make CMakeFiles/pointCloud.dir/src/get_pointCloud.cpp.s
 .PHONY : src/get_pointCloud.cpp.s
 
+src/get_pointCloud_cpp.o: src/get_pointCloud_cpp.cpp.o
+
+.PHONY : src/get_pointCloud_cpp.o
+
+# target to build an object file
+src/get_pointCloud_cpp.cpp.o:
+	$(MAKE) -f CMakeFiles/pointCloudCpp.dir/build.make CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.o
+.PHONY : src/get_pointCloud_cpp.cpp.o
+
+src/get_pointCloud_cpp.i: src/get_pointCloud_cpp.cpp.i
+
+.PHONY : src/get_pointCloud_cpp.i
+
+# target to preprocess a source file
+src/get_pointCloud_cpp.cpp.i:
+	$(MAKE) -f CMakeFiles/pointCloudCpp.dir/build.make CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.i
+.PHONY : src/get_pointCloud_cpp.cpp.i
+
+src/get_pointCloud_cpp.s: src/get_pointCloud_cpp.cpp.s
+
+.PHONY : src/get_pointCloud_cpp.s
+
+# target to generate assembly for a file
+src/get_pointCloud_cpp.cpp.s:
+	$(MAKE) -f CMakeFiles/pointCloudCpp.dir/build.make CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.s
+.PHONY : src/get_pointCloud_cpp.cpp.s
+
+src/get_pointCloud_example.o: src/get_pointCloud_example.cpp.o
+
+.PHONY : src/get_pointCloud_example.o
+
+# target to build an object file
+src/get_pointCloud_example.cpp.o:
+	$(MAKE) -f CMakeFiles/pointCloudCppExample.dir/build.make CMakeFiles/pointCloudCppExample.dir/src/get_pointCloud_example.cpp.o
+.PHONY : src/get_pointCloud_example.cpp.o
+
+src/get_pointCloud_example.i: src/get_pointCloud_example.cpp.i
+
+.PHONY : src/get_pointCloud_example.i
+
+# target to preprocess a source file
+src/get_pointCloud_example.cpp.i:
+	$(MAKE) -f CMakeFiles/pointCloudCppExample.dir/build.make CMakeFiles/pointCloudCppExample.dir/src/get_pointCloud_example.cpp.i
+.PHONY : src/get_pointCloud_example.cpp.i
+
+src/get_pointCloud_example.s: src/get_pointCloud_example.cpp.s
+
+.PHONY : src/get_pointCloud_example.s
+
+# target to generate assembly for a file
+src/get_pointCloud_example.cpp.s:
+	$(MAKE) -f CMakeFiles/pointCloudCppExample.dir/build.make CMakeFiles/pointCloudCppExample.dir/src/get_pointCloud_example.cpp.s
+.PHONY : src/get_pointCloud_example.cpp.s
+
 test.o: test.cpp.o
 
 .PHONY : test.o
@@ -277,6 +357,8 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
+	@echo "... pointCloudCppExample"
+	@echo "... pointCloudCpp"
 	@echo "... open_device"
 	@echo "... edit_cache"
 	@echo "... pointCloud"
@@ -291,6 +373,12 @@ help:
 	@echo "... src/get_pointCloud.o"
 	@echo "... src/get_pointCloud.i"
 	@echo "... src/get_pointCloud.s"
+	@echo "... src/get_pointCloud_cpp.o"
+	@echo "... src/get_pointCloud_cpp.i"
+	@echo "... src/get_pointCloud_cpp.s"
+	@echo "... src/get_pointCloud_example.o"
+	@echo "... src/get_pointCloud_example.i"
+	@echo "... src/get_pointCloud_example.s"
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"
