@@ -2,6 +2,7 @@
 #include <iostream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <time.h>
 
 using namespace std;
 using namespace cv;
@@ -37,6 +38,8 @@ int main(int argc, char** argv){
     namedWindow("color", WINDOW_NORMAL);
 
 
+    double dur;
+    clock_t start, end;
     // get frames
     while(true){
 	switch(k4a_device_get_capture(device, &capture, 100)){
@@ -63,21 +66,26 @@ int main(int argc, char** argv){
 	k4a_image_t depth_image_color;
 	int width_pixels = k4a_image_get_width_pixels(color_image_capture);
 	int height_pixels = k4a_image_get_height_pixels(color_image_capture);
-	int stride_bytes = 0;
+	int stride_bytes = 0 * 16 * width_pixels;
 	k4a_image_create(K4A_IMAGE_FORMAT_DEPTH16, width_pixels, height_pixels, stride_bytes, &depth_image_color);
+	start = clock();
 	k4a_transformation_depth_image_to_color_camera(transformation_handle, depth_image_capture, depth_image_color);
-	cout << "success get depth_image_color" << endl;
+	end = clock();
+	dur = double(end-start);
+	cout << "success get depth_image_color, duration is: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
 
 	// get the calibration type
 	k4a_calibration_type_t camera = K4A_CALIBRATION_TYPE_COLOR;
 
 	// get the output: xyz_image
-	
+	start = clock();
 	cout << "start get the xyz_image" << endl;
 	k4a_image_t xyz_image;
 	k4a_image_create(K4A_IMAGE_FORMAT_CUSTOM, width_pixels, height_pixels, 6*width_pixels, &xyz_image);
 	k4a_transformation_depth_image_to_point_cloud(transformation_handle, depth_image_color, camera, xyz_image);
-	cout << "success get the xyz_image" << endl;
+	end = clock();
+	dur = double(end-start);
+	cout << "success get the xyz_image, duration is: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
 	
 	// show depth_image_color and color_image_capture
 	if(color_image_capture != NULL){
