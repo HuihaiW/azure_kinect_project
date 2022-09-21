@@ -53,7 +53,6 @@ CMAKE_BINARY_DIR = /home/huihai/azure_kinect
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/pointCloudCppExample.dir/all
 all: CMakeFiles/pointCloudCpp.dir/all
 all: CMakeFiles/open_device.dir/all
 all: CMakeFiles/pointCloud.dir/all
@@ -68,7 +67,6 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/pointCloudCppExample.dir/clean
 clean: CMakeFiles/pointCloudCpp.dir/clean
 clean: CMakeFiles/open_device.dir/clean
 clean: CMakeFiles/pointCloud.dir/clean
@@ -76,33 +74,6 @@ clean: CMakeFiles/images.dir/clean
 clean: CMakeFiles/hello.dir/clean
 
 .PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/pointCloudCppExample.dir
-
-# All Build rule for target.
-CMakeFiles/pointCloudCppExample.dir/all:
-	$(MAKE) -f CMakeFiles/pointCloudCppExample.dir/build.make CMakeFiles/pointCloudCppExample.dir/depend
-	$(MAKE) -f CMakeFiles/pointCloudCppExample.dir/build.make CMakeFiles/pointCloudCppExample.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/huihai/azure_kinect/CMakeFiles --progress-num=11,12 "Built target pointCloudCppExample"
-.PHONY : CMakeFiles/pointCloudCppExample.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/pointCloudCppExample.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/huihai/azure_kinect/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/pointCloudCppExample.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/huihai/azure_kinect/CMakeFiles 0
-.PHONY : CMakeFiles/pointCloudCppExample.dir/rule
-
-# Convenience name for target.
-pointCloudCppExample: CMakeFiles/pointCloudCppExample.dir/rule
-
-.PHONY : pointCloudCppExample
-
-# clean rule for target.
-CMakeFiles/pointCloudCppExample.dir/clean:
-	$(MAKE) -f CMakeFiles/pointCloudCppExample.dir/build.make CMakeFiles/pointCloudCppExample.dir/clean
-.PHONY : CMakeFiles/pointCloudCppExample.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/pointCloudCpp.dir

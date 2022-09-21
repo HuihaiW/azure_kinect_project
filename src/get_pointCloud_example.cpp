@@ -456,6 +456,7 @@ int main(int argc, char *argv[]) {
 					k4aTransformation.destroy();
 
 					cv_rgbImage_with_alpha.release();
+    
 					cv_rgbImage_no_alpha.release();
 					cv_depth.release();
 					cv_depth_8U.release();

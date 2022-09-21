@@ -36,7 +36,7 @@ int main(int argc, char** argv){
 
 
     double dur;
-    clock_t start, end;
+    clock_t start, end, end_xyz, end_whole;
     int iAuto = 0;
     int iAutoError = 0;
     // get frames
@@ -79,53 +79,107 @@ int main(int argc, char** argv){
     cv::Mat cv_irImage;
     cv::Mat cv_irImage_8U;
 
+    start = clock();
+    k4a::calibration k4aCalibration = device.get_calibration(config.depth_mode, config.color_resolution);
+    k4a::transformation k4aTransformation = k4a::transformation(k4aCalibration);
+
+    end = clock();
+    dur = double(end-start);
+    cout << "time used for getting transformation: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
+
+    int index = 0;
     while (true){
+	
+	cout << "xxxxxxxxxxxxx" << endl;
+	cout << "Loop: " << index++ << endl;
+	
+	start = clock();
 	if(device.get_capture(&capture)){
 	    //color image
 	    rgbImage = capture.get_color_image();
 	    //cout << "[rgb] " << "\n" << "format: " << rgbImage.get_format() << "\n" << "device_timestamp: " << rgbImage.get_device_timestamp().count() << "\n" << "system_timestamp: " << rgbImage.get_system_timestamp().count() << "\n" << "height*width" << rgbImage.get_height_pixels() << ", " << rgbImage.get_width_pixels() << endl;
 	    
 	    //depth image
-	    depthImage = capture.get_depth_image();
-	    //cout << "[depth] " << "\n" << "format: " << depthImage.get_format() << "\n" << "device_timestamp: " << depthImage.get_device_timestamp().count() << "\n" << "system_timestamp: " << depthImage.get_system_timestamp().count() << "\n" << "height*width" << rgbImage.get_height_pixels() << ", " << depthImage.get_width_pixels() << endl;
-
-	    //get the camera calibration for the entire K4A device, which is used for all transformation functions.
-	    k4a::calibration k4aCalibration = device.get_calibration(config.depth_mode, config.color_resolution);
-	    k4a::transformation k4aTransformation = k4a::transformation(k4aCalibration);
-
-	    start = clock();
-	    transformed_depthImage = k4aTransformation.depth_image_to_color_camera(depthImage);
-	    end = clock();
-	    dur = double(end-start);
-	    cout << "time used: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
-
-	    xyzImage = k4aTransformation.depth_image_to_point_cloud(depthImage, K4A_CALIBRATION_TYPE_DEPTH);
 
 	    int height = rgbImage.get_height_pixels();
 	    int width = rgbImage.get_width_pixels();
+	    depthImage = capture.get_depth_image();
 
-	    cout << "height X width: " << height << "X" << width << endl;
+	    end = clock();
+	    dur = double(end-start);
+	    cout << "time used for get new color and depth images: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
+	    //cout << "[depth] " << "\n" << "format: " << depthImage.get_format() << "\n" << "device_timestamp: " << depthImage.get_device_timestamp().count() << "\n" << "system_timestamp: " << depthImage.get_system_timestamp().count() << "\n" << "height*width" << rgbImage.get_height_pixels() << ", " << depthImage.get_width_pixels() << endl;
+
+	    //get the camera calibration for the entire K4A device, which is used for all transformation functions.
+
+	    start = clock();
+	    transformed_depthImage = k4aTransformation.depth_image_to_color_camera(depthImage);
+	    cv_depth = cv::Mat(height, width, CV_16U, (void*)transformed_depthImage.get_buffer(), static_cast<size_t>(transformed_depthImage.get_stride_bytes()));
+	    end = clock();
+	    dur = double(end-start);
+	    cout << "time used for depth to color transformation: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
+
+	    start = clock();
+	    xyzImage = k4aTransformation.depth_image_to_point_cloud(depthImage, K4A_CALIBRATION_TYPE_DEPTH);
+	    end = clock();
+
+	    dur = double(end - start);
+	    cout << "time used for xyz generation: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
+
+	    start = clock();
+
 
 	    cv_rgbImage_with_alpha = cv::Mat(rgbImage.get_height_pixels(), rgbImage.get_width_pixels(), CV_8UC4,
 						(void *)rgbImage.get_buffer());
 	    cv::cvtColor(cv_rgbImage_with_alpha, cv_rgbImage_no_alpha, cv::COLOR_BGRA2BGR);
 	    cv::imshow("rgb", cv_rgbImage_no_alpha);
 	    cout << "display image" << endl;
+	    
+	    end = clock();
+	    dur = double(end - start);
+	    cout << "time used for new images and display: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
 
+	    cout << "creating points" << endl;
+	    cout << "height X width: " << height << "X" << width << endl;
+	    //Get point clouds
+	    for(int i = 0; i < height; i++){
+		for(int j = 0; j < width; j++){
+		    int r = cv_rgbImage_no_alpha.at<Vec3d>(i, j)[1];
+		    int g = cv_rgbImage_no_alpha.at<Vec3d>(i, j)[2];
+		    int b = cv_rgbImage_no_alpha.at<Vec3d>(i, j)[3];
+		    int x = cv_depth.at<Vec3d>(i, j)[0];
+		    int y = cv_depth.at<Vec3d>(i, j)[1];
+		    int z = cv_depth.at<Vec3d>(i, j)[2];
+		    cout << "xyz: " << x << ", " << y << ", " << z << endl;
+		    cout << "rgb: " << r << ", " << g << ", " << b << endl;
+		}
+	    }
 
 	    /*rgbImage.release();
 	    depthImage.release();
 	    capture.release();
 	    xyzImage.release();
 	    */
+	    capture.reset();
+	 
 
 	    
+	    if(cv::waitKey(10) == 'q'){
+
+		cout << "--------------------------------------------" << endl;
+		cout << "--------------------closed------------------" << endl;
+		cout << "--------------------------------------------" << endl;
+		break;
+
+	    }
 	}
     }
+    cv::destroyAllWindows();
+    
     rgbImage.reset();
     depthImage.reset();
     capture.reset();
     device.close();
-    return 0;
+    return 1;
     
 }
