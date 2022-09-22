@@ -150,8 +150,6 @@ int main(int argc, char** argv){
 		    int x = cv_depth.at<Vec3d>(i, j)[0];
 		    int y = cv_depth.at<Vec3d>(i, j)[1];
 		    int z = cv_depth.at<Vec3d>(i, j)[2];
-		    cout << "xyz: " << x << ", " << y << ", " << z << endl;
-		    cout << "rgb: " << r << ", " << g << ", " << b << endl;
 		}
 	    }
 
