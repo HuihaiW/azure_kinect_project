@@ -109,6 +109,12 @@ pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.2.0
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.2.0
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.2.0
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_glgeometry.so
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_plot.so
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_python.so
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_scene.so
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_tools.so
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_video.so
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.2.0
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.2.0
@@ -128,6 +134,19 @@ pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.2.0
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_geometry.so
+pointCloudCpp: /home/huihai/Pangolin/build/libtinyobj.so
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_display.so
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_vars.so
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_windowing.so
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_opengl.so
+pointCloudCpp: /usr/lib/x86_64-linux-gnu/libGLEW.so
+pointCloudCpp: /usr/lib/x86_64-linux-gnu/libOpenGL.so
+pointCloudCpp: /usr/lib/x86_64-linux-gnu/libGLX.so
+pointCloudCpp: /usr/lib/x86_64-linux-gnu/libGLU.so
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_image.so
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_packetstream.so
+pointCloudCpp: /home/huihai/Pangolin/build/libpango_core.so
 pointCloudCpp: CMakeFiles/pointCloudCpp.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/huihai/azure_kinect/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable pointCloudCpp"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/pointCloudCpp.dir/link.txt --verbose=$(VERBOSE)

@@ -101,7 +101,6 @@ int main(int argc, char** argv){
 
     int index = 0;
     while (true){
-
 	
 	cout << "xxxxxxxxxxxxx" << endl;
 	cout << "Loop: " << index++ << endl;
@@ -133,7 +132,7 @@ int main(int argc, char** argv){
 	    cout << "time used for depth to color transformation: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
 
 	    start = clock();
-	    xyzImage = k4aTransformation.depth_image_to_point_cloud(transformed_depthImage, K4A_CALIBRATION_TYPE_COLOR);
+	    xyzImage = k4aTransformation.depth_image_to_point_cloud(depthImage, K4A_CALIBRATION_TYPE_DEPTH);
 	    end = clock();
 
 	    dur = double(end - start);
@@ -188,9 +187,8 @@ int main(int argc, char** argv){
 		    //cout << "xyz: " << x << ", " << y << ", " << z << "," << endl;
 		}
 	    }
-	    
-
 	    showPointCloud(pointcloud);
+
 
 	    /*
 
@@ -245,7 +243,7 @@ void showPointCloud(const vector<Vector6d, Eigen::aligned_allocator<Vector6d>> &
         return;
     }
 
-    pangolin::CreateWindowAndBind("Point Cloud Viewer", 3840, 2160);
+    pangolin::CreateWindowAndBind("Point Cloud Viewer", 1024, 768);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -268,13 +266,13 @@ void showPointCloud(const vector<Vector6d, Eigen::aligned_allocator<Vector6d>> &
         glPointSize(2);
         glBegin(GL_POINTS);
         for (auto &p: pointcloud) {
-            glColor3f(p[3]/255.0, p[4]/255.0, p[5]/255.0);
+            glColor3f(p[3], p[4], p[5]);
             glVertex3d(p[0], p[1], p[2]);
         }
         glEnd();
         pangolin::FinishFrame();
         usleep(5000);   // sleep 5 ms
-	break;
     }
+    return;
 }
 
