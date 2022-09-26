@@ -274,7 +274,6 @@ void showPointCloud(const vector<Vector6d, Eigen::aligned_allocator<Vector6d>> &
         glEnd();
         pangolin::FinishFrame();
         usleep(5000);   // sleep 5 ms
-	break;
     }
 }
 
