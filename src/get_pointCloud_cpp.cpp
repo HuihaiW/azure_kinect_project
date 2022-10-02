@@ -91,7 +91,19 @@ int main(int argc, char** argv){
 
     start = clock();
     k4a::calibration k4aCalibration = device.get_calibration(config.depth_mode, config.color_resolution);
+
     k4a::transformation k4aTransformation = k4a::transformation(k4aCalibration);
+    k4a_calibration_camera_t color_matrix = k4aCalibration.color_camera_calibration;
+    k4a_calibration_intrinsics_t intrinsic = color_matrix.intrinsics;
+    k4a_calibration_intrinsic_parameters_t parameters = intrinsic.parameters;
+    float color_intrinsic_matrix[] = {0};
+    int matrix_index = 0;
+    while(matrix_index < 15){
+	color_intrinsic_matrix[matrix_index] = parameters.v[matrix_index];
+	cout << "the parameter " << matrix_index << " of the matrix is: " << color_intrinsic_matrix[matrix_index] << endl;
+	matrix_index ++;
+    }
+
 
     end = clock();
     dur = double(end-start);
