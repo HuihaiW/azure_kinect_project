@@ -84,6 +84,7 @@ int main(int argc, char** argv){
 	    
 	}
 
+	cv::Mat color_image_save;
 
 	if(color_image != NULL){
 	    uint8_t* buffer_color = k4a_image_get_buffer(color_image);
@@ -94,13 +95,15 @@ int main(int argc, char** argv){
 	    cout << "color row: " << rows << "; " << " color cols: " << cols << endl;
 	    
 	    cv::Mat colorMat(rows, cols, CV_8UC4, (void*)buffer_color, cv::Mat::AUTO_STEP);
+	    color_image_save = colorMat;
 
 	    imshow("color", colorMat);
 	}
-
 	if (waitKey(10) == 27){
+	    bool check = imwrite("chess_board.jpg", color_image_save);
 	    break;
 	}
+
 
 
 	k4a_image_release(depth_image);

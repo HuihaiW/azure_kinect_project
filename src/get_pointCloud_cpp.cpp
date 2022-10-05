@@ -7,6 +7,8 @@
 #include <time.h>
 #include <pangolin/pangolin.h>
 #include <Eigen/Core>
+#include <Eigen/Dense>
+#include <cmath>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -112,6 +114,28 @@ int main(int argc, char** argv){
     vector<Vector6d, Eigen::aligned_allocator<Vector6d>> pointcloud;
 
     int index = 0;
+
+    Matrix3d Homography, intrinsic_rotate, temp_matrix, rotation_matrix;
+    Homography << 0.00694, -0.00184, 0.67004, 
+	          -0.00069, 0.00317, 0.74227,
+		  0.0, 0.0, 0.00160;
+    intrinsic_rotate << 606.782, 0.0, 643.805,
+		     	0.0, 606.896, 366.084,
+			0.0, 0.0, 1.0;
+    temp_matrix = intrinsic_rotate.inverse() * Homography;
+    Matrix<double, 3, 1> R1, R2, R3;
+    R1 << temp_matrix(0, 0), temp_matrix(1, 0), temp_matrix(2,0);
+    R2 << temp_matrix(0, 1), temp_matrix(1, 1), temp_matrix(2,1);
+    R3 = R1.cross(R2);
+    rotation_matrix << R1, R2, R3;
+
+    cout << "The temp_matrix is: " << temp_matrix << endl;
+    cout << "R1 is: " << R1 << endl;
+    cout << "R2 is: " << R2 << endl;
+    cout << "R3 is: " << R3 << endl;
+    cout << "rotation matrix is: " << rotation_matrix << endl;
+    
+
     while (true){
 
 	
@@ -187,9 +211,12 @@ int main(int argc, char** argv){
 		    int r = color_buffer[4 * i + 2];
 		    int g = color_buffer[4 * i + 1];
 		    int b = color_buffer[4 * i + 0];
-		    point[0] = x;
-		    point[1] = y;
-		    point[2] = z;
+		    Matrix<float, 3, 1> o_p;
+		    o_p << x, y, z;
+		    Matrix<float, 3, 1> new_p = rotation_matrix * o_p;
+		    point[0] = new_p(0, 0);
+		    point[1] = new_p(1, 0);
+		    point[2] = new_p(2, 0);
 		    point[3] = r;
 		    point[4] = g;
 		    point[5] = b;
