@@ -214,9 +214,12 @@ int main(int argc, char** argv){
 		    Matrix<float, 3, 1> o_p;
 		    o_p << x, y, z;
 		    //Matrix<float, 3, 1> new_p = rotation_matrix * o_p;
-		    point[0] = new_p(0, 0);
-		    point[1] = new_p(1, 0);
-		    point[2] = new_p(2, 0);
+		    point[0] = x;
+		    point[1] = y;
+		    point[2] = z;
+		    //point[0] = new_p(0, 0);
+		    //point[1] = new_p(1, 0);
+		    //point[2] = new_p(2, 0);
 		    point[3] = r;
 		    point[4] = g;
 		    point[5] = b;
