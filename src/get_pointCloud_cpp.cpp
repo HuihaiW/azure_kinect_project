@@ -213,7 +213,7 @@ int main(int argc, char** argv){
 		    int b = color_buffer[4 * i + 0];
 		    Matrix<float, 3, 1> o_p;
 		    o_p << x, y, z;
-		    Matrix<float, 3, 1> new_p = rotation_matrix * o_p;
+		    //Matrix<float, 3, 1> new_p = rotation_matrix * o_p;
 		    point[0] = new_p(0, 0);
 		    point[1] = new_p(1, 0);
 		    point[2] = new_p(2, 0);
