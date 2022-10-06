@@ -119,10 +119,12 @@ int main(int argc, char** argv){
     Homography << 0.00694, -0.00184, 0.67004, 
 	          -0.00069, 0.00317, 0.74227,
 		  0.0, 0.0, 0.00160;
+		 
+    //Homography << -0.504521, 0.628555, 0.471883, 0.108265, 0.00757, 0.335677, 0.000156151, 0.000889, 0.0006899; 
     intrinsic_rotate << 606.782, 0.0, 643.805,
 		     	0.0, 606.896, 366.084,
 			0.0, 0.0, 1.0;
-    temp_matrix = intrinsic_rotate.inverse() * Homography;
+    temp_matrix = intrinsic_rotate.inverse() * Homography.inverse();
     Matrix<double, 3, 1> R1, R2, R3;
     R1 << temp_matrix(0, 0), temp_matrix(1, 0), temp_matrix(2,0);
     R2 << temp_matrix(0, 1), temp_matrix(1, 1), temp_matrix(2,1);
@@ -211,15 +213,16 @@ int main(int argc, char** argv){
 		    int r = color_buffer[4 * i + 2];
 		    int g = color_buffer[4 * i + 1];
 		    int b = color_buffer[4 * i + 0];
-		    Matrix<float, 3, 1> o_p;
+		    Matrix<float, 3, 1> o_p, new_p;
 		    o_p << x, y, z;
-		    //Matrix<float, 3, 1> new_p = rotation_matrix * o_p;
-		    point[0] = x;
-		    point[1] = y;
-		    point[2] = z;
-		    //point[0] = new_p(0, 0);
-		    //point[1] = new_p(1, 0);
-		    //point[2] = new_p(2, 0);
+		    //cout << "new point is: " << rotation_matrix* o_p.cast<double> << endl;
+		    new_p = rotation_matrix.cast<float>() * o_p;
+		    //point[0] = x;
+		    //point[1] = y;
+		    //point[2] = z;
+		    point[0] = 100*new_p(0, 0);
+		    point[1] = 100*new_p(1, 0);
+		    point[2] = 0*100*new_p(2, 0);
 		    point[3] = r;
 		    point[4] = g;
 		    point[5] = b;
