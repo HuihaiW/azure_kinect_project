@@ -1,4 +1,4 @@
-# Install script for directory: /home/uil/azure_kinect_project
+# Install script for directory: /home/huihai/azure_kinect
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/uil/azure_kinect_project/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/huihai/azure_kinect/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
