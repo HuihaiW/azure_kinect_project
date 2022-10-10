@@ -116,10 +116,11 @@ int main(int argc, char** argv){
     int index = 0;
 
     Matrix3d Homography, intrinsic_rotate, temp_matrix, rotation_matrix;
-    Homography << 0.00694, -0.00184, 0.67004, 
+    //Homography << 0.00694, -0.00184, 0.67004, 
 	          -0.00069, 0.00317, 0.74227,
 		  0.0, 0.0, 0.00160;
-		 
+
+    Homography << 0.0143067, -0.00385386, 0.856358, -6.73185e-05, 0.00746237, 0.516135, 2.43995e-07, -5.37434e-06, 0.000985956;
     //Homography << -0.504521, 0.628555, 0.471883, 0.108265, 0.00757, 0.335677, 0.000156151, 0.000889, 0.0006899; 
     intrinsic_rotate << 606.782, 0.0, 643.805,
 		     	0.0, 606.896, 366.084,
@@ -217,18 +218,23 @@ int main(int argc, char** argv){
 		    o_p << x, y, z;
 		    //cout << "new point is: " << rotation_matrix* o_p.cast<double> << endl;
 		    new_p = rotation_matrix.cast<float>() * o_p;
-		    //point[0] = x;
-		    //point[1] = y;
-		    //point[2] = z;
-		    point[0] = 100*new_p(0, 0);
-		    point[1] = 100*new_p(1, 0);
-		    point[2] = 0*100*new_p(2, 0);
+		    ///*
+		    //*/
+		    ///*
+		    point[0] =new_p(0, 0);
+		    point[1] =new_p(1, 0);
+		    point[2] =new_p(2, 0);
+		    //*/
 		    point[3] = r;
 		    point[4] = g;
 		    point[5] = b;
 
 		    pointcloud.push_back(point);
+		    point[0] = x;
+		    point[1] = y;
+		    point[2] = z;
 
+		    pointcloud.push_back(point);
 		    //cout << "rgb: " << r << ", " << g << ", " << b << "," << endl;
 		    //cout << "xyz: " << x << ", " << y << ", " << z << "," << endl;
 		}

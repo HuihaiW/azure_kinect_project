@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/huihai/azure_kinect
+CMAKE_SOURCE_DIR = /home/uil/azure_kinect_project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/huihai/azure_kinect
+CMAKE_BINARY_DIR = /home/uil/azure_kinect_project/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/huihai/azure_kinect/CMakeFiles /home/huihai/azure_kinect/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/uil/azure_kinect_project/build/CMakeFiles /home/uil/azure_kinect_project/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/huihai/azure_kinect/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/uil/azure_kinect_project/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -124,19 +124,6 @@ pointCloudCpp/fast:
 .PHONY : pointCloudCpp/fast
 
 #=============================================================================
-# Target rules for targets named open_device
-
-# Build rule for target.
-open_device: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 open_device
-.PHONY : open_device
-
-# fast build rule for target.
-open_device/fast:
-	$(MAKE) -f CMakeFiles/open_device.dir/build.make CMakeFiles/open_device.dir/build
-.PHONY : open_device/fast
-
-#=============================================================================
 # Target rules for targets named pointCloud
 
 # Build rule for target.
@@ -161,46 +148,6 @@ images: cmake_check_build_system
 images/fast:
 	$(MAKE) -f CMakeFiles/images.dir/build.make CMakeFiles/images.dir/build
 .PHONY : images/fast
-
-#=============================================================================
-# Target rules for targets named hello
-
-# Build rule for target.
-hello: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 hello
-.PHONY : hello
-
-# fast build rule for target.
-hello/fast:
-	$(MAKE) -f CMakeFiles/hello.dir/build.make CMakeFiles/hello.dir/build
-.PHONY : hello/fast
-
-find_open.o: find_open.cpp.o
-
-.PHONY : find_open.o
-
-# target to build an object file
-find_open.cpp.o:
-	$(MAKE) -f CMakeFiles/open_device.dir/build.make CMakeFiles/open_device.dir/find_open.cpp.o
-.PHONY : find_open.cpp.o
-
-find_open.i: find_open.cpp.i
-
-.PHONY : find_open.i
-
-# target to preprocess a source file
-find_open.cpp.i:
-	$(MAKE) -f CMakeFiles/open_device.dir/build.make CMakeFiles/open_device.dir/find_open.cpp.i
-.PHONY : find_open.cpp.i
-
-find_open.s: find_open.cpp.s
-
-.PHONY : find_open.s
-
-# target to generate assembly for a file
-find_open.cpp.s:
-	$(MAKE) -f CMakeFiles/open_device.dir/build.make CMakeFiles/open_device.dir/find_open.cpp.s
-.PHONY : find_open.cpp.s
 
 src/get_images.o: src/get_images.cpp.o
 
@@ -283,33 +230,6 @@ src/get_pointCloud_cpp.cpp.s:
 	$(MAKE) -f CMakeFiles/pointCloudCpp.dir/build.make CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.s
 .PHONY : src/get_pointCloud_cpp.cpp.s
 
-test.o: test.cpp.o
-
-.PHONY : test.o
-
-# target to build an object file
-test.cpp.o:
-	$(MAKE) -f CMakeFiles/hello.dir/build.make CMakeFiles/hello.dir/test.cpp.o
-.PHONY : test.cpp.o
-
-test.i: test.cpp.i
-
-.PHONY : test.i
-
-# target to preprocess a source file
-test.cpp.i:
-	$(MAKE) -f CMakeFiles/hello.dir/build.make CMakeFiles/hello.dir/test.cpp.i
-.PHONY : test.cpp.i
-
-test.s: test.cpp.s
-
-.PHONY : test.s
-
-# target to generate assembly for a file
-test.cpp.s:
-	$(MAKE) -f CMakeFiles/hello.dir/build.make CMakeFiles/hello.dir/test.cpp.s
-.PHONY : test.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -318,14 +238,9 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... pointCloudCpp"
-	@echo "... open_device"
 	@echo "... edit_cache"
 	@echo "... pointCloud"
 	@echo "... images"
-	@echo "... hello"
-	@echo "... find_open.o"
-	@echo "... find_open.i"
-	@echo "... find_open.s"
 	@echo "... src/get_images.o"
 	@echo "... src/get_images.i"
 	@echo "... src/get_images.s"
@@ -335,9 +250,6 @@ help:
 	@echo "... src/get_pointCloud_cpp.o"
 	@echo "... src/get_pointCloud_cpp.i"
 	@echo "... src/get_pointCloud_cpp.s"
-	@echo "... test.o"
-	@echo "... test.i"
-	@echo "... test.s"
 .PHONY : help
 
 
