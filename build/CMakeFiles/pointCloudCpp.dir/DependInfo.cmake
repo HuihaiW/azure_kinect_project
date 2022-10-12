@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/huihai/azure_kinect/src/get_pointCloud_cpp.cpp" "/home/huihai/azure_kinect/build/CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.o"
+  "/home/uil/azure_kinect_project/src/get_pointCloud_cpp.cpp" "/home/uil/azure_kinect_project/build/CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -12,29 +12,29 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 set(CMAKE_TARGET_DEFINITIONS_CXX
   "HAVE_EIGEN"
   "HAVE_GLEW"
-  "PANGO_DEFAULT_WIN_URI=\"x11\""
+  "PANGO_DEFAULT_WIN_URI=\"wayland\""
   "_LINUX_"
   )
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/usr/include/opencv4"
-  "/home/huihai/Pangolin/components/pango_core/include"
-  "/home/huihai/Pangolin/components/pango_display/include"
-  "/home/huihai/Pangolin/components/pango_opengl/include"
-  "/home/huihai/Pangolin/components/pango_image/include"
+  "/usr/local/include/opencv4"
+  "/home/uil/Pangolin/components/pango_core/include"
+  "/home/uil/Pangolin/components/pango_display/include"
+  "/home/uil/Pangolin/components/pango_opengl/include"
+  "/home/uil/Pangolin/components/pango_image/include"
   "/usr/include/eigen3"
-  "/home/huihai/Pangolin/components/pango_windowing/include"
-  "/home/huihai/Pangolin/build/include"
-  "/home/huihai/Pangolin/components/pango_vars/include"
-  "/home/huihai/Pangolin/components/pango_geometry/include"
-  "/home/huihai/Pangolin/components/tinyobj/include"
-  "/home/huihai/Pangolin/components/pango_glgeometry/include"
-  "/home/huihai/Pangolin/components/pango_packetstream/include"
-  "/home/huihai/Pangolin/components/pango_plot/include"
-  "/home/huihai/Pangolin/components/pango_scene/include"
-  "/home/huihai/Pangolin/components/pango_tools/include"
-  "/home/huihai/Pangolin/components/pango_video/include"
+  "/home/uil/Pangolin/components/pango_windowing/include"
+  "/home/uil/Pangolin/build/include"
+  "/home/uil/Pangolin/components/pango_vars/include"
+  "/home/uil/Pangolin/components/pango_geometry/include"
+  "/home/uil/Pangolin/components/tinyobj/include"
+  "/home/uil/Pangolin/components/pango_glgeometry/include"
+  "/home/uil/Pangolin/components/pango_packetstream/include"
+  "/home/uil/Pangolin/components/pango_plot/include"
+  "/home/uil/Pangolin/components/pango_scene/include"
+  "/home/uil/Pangolin/components/pango_tools/include"
+  "/home/uil/Pangolin/components/pango_video/include"
   )
 
 # Targets to which this target links.

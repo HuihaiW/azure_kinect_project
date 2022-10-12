@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/huihai/azure_kinect
+CMAKE_SOURCE_DIR = /home/uil/azure_kinect_project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/huihai/azure_kinect/build
+CMAKE_BINARY_DIR = /home/uil/azure_kinect_project/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/pointCloudCpp.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/pointCloudCpp.dir/flags.make
 
 CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.o: CMakeFiles/pointCloudCpp.dir/flags.make
 CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.o: ../src/get_pointCloud_cpp.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/huihai/azure_kinect/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.o -c /home/huihai/azure_kinect/src/get_pointCloud_cpp.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/uil/azure_kinect_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.o -c /home/uil/azure_kinect_project/src/get_pointCloud_cpp.cpp
 
 CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/huihai/azure_kinect/src/get_pointCloud_cpp.cpp > CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/uil/azure_kinect_project/src/get_pointCloud_cpp.cpp > CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.i
 
 CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/huihai/azure_kinect/src/get_pointCloud_cpp.cpp -o CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/uil/azure_kinect_project/src/get_pointCloud_cpp.cpp -o CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.s
 
 # Object files for target pointCloudCpp
 pointCloudCpp_OBJECTS = \
@@ -80,75 +80,82 @@ pointCloudCpp_EXTERNAL_OBJECTS =
 pointCloudCpp: CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.o
 pointCloudCpp: CMakeFiles/pointCloudCpp.dir/build.make
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libk4a.so.1.4.1
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_dnn_objdetect.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_dnn_superres.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_face.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_hfs.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_img_hash.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_quality.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_reg.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_shape.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_superres.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_tracking.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_glgeometry.so
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_plot.so
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_python.so
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_scene.so
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_tools.so
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_video.so
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_text.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_dnn.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_ml.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_video.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0
-pointCloudCpp: /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_geometry.so
-pointCloudCpp: /home/huihai/Pangolin/build/libtinyobj.so
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_display.so
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_vars.so
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_windowing.so
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_opengl.so
+pointCloudCpp: /usr/local/lib/libopencv_gapi.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_stitching.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_alphamat.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_aruco.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_barcode.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_bgsegm.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_bioinspired.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_ccalib.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_dnn_objdetect.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_dnn_superres.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_dpm.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_face.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_freetype.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_fuzzy.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_hfs.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_img_hash.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_intensity_transform.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_line_descriptor.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_mcc.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_quality.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_rapid.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_reg.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_rgbd.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_saliency.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_sfm.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_stereo.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_structured_light.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_superres.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_surface_matching.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_tracking.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_videostab.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_wechat_qrcode.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_xfeatures2d.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_xobjdetect.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_xphoto.so.4.6.0
+pointCloudCpp: /home/uil/Pangolin/build/libpango_glgeometry.so
+pointCloudCpp: /home/uil/Pangolin/build/libpango_plot.so
+pointCloudCpp: /home/uil/Pangolin/build/libpango_python.so
+pointCloudCpp: /home/uil/Pangolin/build/libpango_scene.so
+pointCloudCpp: /home/uil/Pangolin/build/libpango_tools.so
+pointCloudCpp: /home/uil/Pangolin/build/libpango_video.so
+pointCloudCpp: /usr/local/lib/libopencv_shape.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_highgui.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_datasets.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_plot.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_text.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_ml.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_phase_unwrapping.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_optflow.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_ximgproc.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_video.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_videoio.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_imgcodecs.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_objdetect.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_calib3d.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_dnn.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_features2d.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_flann.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_photo.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_imgproc.so.4.6.0
+pointCloudCpp: /usr/local/lib/libopencv_core.so.4.6.0
+pointCloudCpp: /home/uil/Pangolin/build/libpango_geometry.so
+pointCloudCpp: /home/uil/Pangolin/build/libtinyobj.so
+pointCloudCpp: /home/uil/Pangolin/build/libpango_display.so
+pointCloudCpp: /home/uil/Pangolin/build/libpango_vars.so
+pointCloudCpp: /home/uil/Pangolin/build/libpango_windowing.so
+pointCloudCpp: /home/uil/Pangolin/build/libpango_opengl.so
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libGLEW.so
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libOpenGL.so
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libGLX.so
 pointCloudCpp: /usr/lib/x86_64-linux-gnu/libGLU.so
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_image.so
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_packetstream.so
-pointCloudCpp: /home/huihai/Pangolin/build/libpango_core.so
+pointCloudCpp: /home/uil/Pangolin/build/libpango_image.so
+pointCloudCpp: /home/uil/Pangolin/build/libpango_packetstream.so
+pointCloudCpp: /home/uil/Pangolin/build/libpango_core.so
 pointCloudCpp: CMakeFiles/pointCloudCpp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/huihai/azure_kinect/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable pointCloudCpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/uil/azure_kinect_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable pointCloudCpp"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/pointCloudCpp.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -161,6 +168,6 @@ CMakeFiles/pointCloudCpp.dir/clean:
 .PHONY : CMakeFiles/pointCloudCpp.dir/clean
 
 CMakeFiles/pointCloudCpp.dir/depend:
-	cd /home/huihai/azure_kinect/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/huihai/azure_kinect /home/huihai/azure_kinect /home/huihai/azure_kinect/build /home/huihai/azure_kinect/build /home/huihai/azure_kinect/build/CMakeFiles/pointCloudCpp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/uil/azure_kinect_project/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/uil/azure_kinect_project /home/uil/azure_kinect_project /home/uil/azure_kinect_project/build /home/uil/azure_kinect_project/build /home/uil/azure_kinect_project/build/CMakeFiles/pointCloudCpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/pointCloudCpp.dir/depend
 

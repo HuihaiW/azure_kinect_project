@@ -4,13 +4,13 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/huihai/azure_kinect/src/get_images.cpp" "/home/huihai/azure_kinect/build/CMakeFiles/images.dir/src/get_images.cpp.o"
+  "/home/uil/azure_kinect_project/src/get_images.cpp" "/home/uil/azure_kinect_project/build/CMakeFiles/images.dir/src/get_images.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/usr/include/opencv4"
+  "/usr/local/include/opencv4"
   )
 
 # Targets to which this target links.
