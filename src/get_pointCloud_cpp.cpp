@@ -120,23 +120,33 @@ int main(int argc, char** argv){
 	          -0.00069, 0.00317, 0.74227,
 		  0.0, 0.0, 0.00160;
 
-    Homography << 0.0143067, -0.00385386, 0.856358, -6.73185e-05, 0.00746237, 0.516135, 2.43995e-07, -5.37434e-06, 0.000985956;
+    //Homography << 0.0143067, -0.00385386, 0.856358, -6.73185e-05, 0.00746237, 0.516135, 2.43995e-07, -5.37434e-06, 0.000985956;
+    //Homography << -0.511637, 0.629602, -0.466258, 0.0223014, 0.0954103, -0.328452, 0.000104113, 0.000889112, -0.000662905;
     //Homography << -0.504521, 0.628555, 0.471883, 0.108265, 0.00757, 0.335677, 0.000156151, 0.000889, 0.0006899; 
+    Homography << -0.508861, 0.62868, -0.465, 0.0234815, 0.0963, -0.327516, 0.000107326, 0.00088763, -0.000660675;
     intrinsic_rotate << 606.782, 0.0, 643.805,
 		     	0.0, 606.896, 366.084,
 			0.0, 0.0, 1.0;
-    temp_matrix = intrinsic_rotate.inverse() * Homography.inverse();
+    temp_matrix = intrinsic_rotate.inverse() * Homography*intrinsic_rotate;
     Matrix<double, 3, 1> R1, R2, R3;
     R1 << temp_matrix(0, 0), temp_matrix(1, 0), temp_matrix(2,0);
     R2 << temp_matrix(0, 1), temp_matrix(1, 1), temp_matrix(2,1);
     R3 = R1.cross(R2);
     rotation_matrix << R1, R2, R3;
 
+    
+    Matrix3d new_coord; 
+    new_coord << 1.0, 0.0, 0.0, 0.0, 0.5, 0.87, 0.0, -0.87, 0.5;
+    rotation_matrix = new_coord.inverse();
+    
+    
+
+
     cout << "The temp_matrix is: " << temp_matrix << endl;
     cout << "R1 is: " << R1 << endl;
     cout << "R2 is: " << R2 << endl;
     cout << "R3 is: " << R3 << endl;
-    cout << "rotation matrix is: " << rotation_matrix << endl;
+    cout << "rotation coord is: " << rotation_matrix.inverse() << endl;
     
 
     while (true){
@@ -218,23 +228,28 @@ int main(int argc, char** argv){
 		    o_p << x, y, z;
 		    //cout << "new point is: " << rotation_matrix* o_p.cast<double> << endl;
 		    new_p = rotation_matrix.cast<float>() * o_p;
+		    //new_p = temp_matrix.cast<float>() * o_p;
+		    //new_p = Homography.inverse().cast<float>() * o_p;
 		    ///*
 		    //*/
 		    ///*
-		    point[0] =new_p(0, 0);
-		    point[1] =new_p(1, 0);
-		    point[2] =new_p(2, 0);
+		    float scale = 1.0;
+		    point[0] = scale * new_p(0, 0);
+		    point[1] = scale * new_p(1, 0);
+		    point[2] = 0 * new_p(2, 0);
 		    //*/
 		    point[3] = r;
 		    point[4] = g;
 		    point[5] = b;
 
 		    pointcloud.push_back(point);
+		    
 		    point[0] = x;
 		    point[1] = y;
 		    point[2] = z;
-
-		    pointcloud.push_back(point);
+		   
+		    //pointcloud.push_back(point);
+		    
 		    //cout << "rgb: " << r << ", " << g << ", " << b << "," << endl;
 		    //cout << "xyz: " << x << ", " << y << ", " << z << "," << endl;
 		}
