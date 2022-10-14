@@ -123,21 +123,30 @@ int main(int argc, char** argv){
     //Homography << 0.0143067, -0.00385386, 0.856358, -6.73185e-05, 0.00746237, 0.516135, 2.43995e-07, -5.37434e-06, 0.000985956;
     //Homography << -0.511637, 0.629602, -0.466258, 0.0223014, 0.0954103, -0.328452, 0.000104113, 0.000889112, -0.000662905;
     //Homography << -0.504521, 0.628555, 0.471883, 0.108265, 0.00757, 0.335677, 0.000156151, 0.000889, 0.0006899; 
-    Homography << -0.508861, 0.62868, -0.465, 0.0234815, 0.0963, -0.327516, 0.000107326, 0.00088763, -0.000660675;
+    //Homography << -0.508861, 0.62868, -0.465, 0.0234815, 0.0963, -0.327516, 0.000107326, 0.00088763, -0.000660675;
+    //Homography << 0.0013353, -0.00115085, 0.715389, 0.00010763, -0.000252427, 0.698723, 1.86851e-07, -1.90316e-06, 0.00117873;
+    //Homography << 0.00178039, -0.00153446, 0.715388, 0.000143507, -0.000336569, 0.698722, 2.49134e-07, -2.53754e-06, 0.00117873;
+    Homography << 0.000139809, -0.000187151, 0.815971, -1.88624e-06, -3.60233e-05, 0.578092, -3.35392e-08, -2.5564e-07, 0.00120086;
     intrinsic_rotate << 606.782, 0.0, 643.805,
 		     	0.0, 606.896, 366.084,
 			0.0, 0.0, 1.0;
-    temp_matrix = intrinsic_rotate.inverse() * Homography*intrinsic_rotate;
-    Matrix<double, 3, 1> R1, R2, R3;
+    temp_matrix = intrinsic_rotate.inverse() * Homography;
+    cout << "rotation + transpose = " << temp_matrix << endl;
+    //temp_matrix = intrinsic_rotate.inverse() * Homography*intrinsic_rotate;
+    Matrix<double, 3, 1> R1, R2, R3, transpose;
     R1 << temp_matrix(0, 0), temp_matrix(1, 0), temp_matrix(2,0);
     R2 << temp_matrix(0, 1), temp_matrix(1, 1), temp_matrix(2,1);
-    R3 = R1.cross(R2);
-    rotation_matrix << R1, R2, R3;
+    R3 = R1.normalized().cross(R2.normalized());
+    rotation_matrix << R1.normalized(), R2.normalized(), R3;
+    transpose << temp_matrix(0,2)/R1.norm(),  temp_matrix(1,2)/R1.norm(), temp_matrix(2,2)/R1.norm();
+
 
     
+    /*
     Matrix3d new_coord; 
     new_coord << 1.0, 0.0, 0.0, 0.0, 0.5, 0.87, 0.0, -0.87, 0.5;
     rotation_matrix = new_coord.inverse();
+    */
     
     
 
@@ -148,6 +157,7 @@ int main(int argc, char** argv){
     cout << "R3 is: " << R3 << endl;
     cout << "rotation coord is: " << rotation_matrix.inverse() << endl;
     
+    cout << "transpose is: " << transpose << endl;
 
     while (true){
 
@@ -224,18 +234,20 @@ int main(int argc, char** argv){
 		    int r = color_buffer[4 * i + 2];
 		    int g = color_buffer[4 * i + 1];
 		    int b = color_buffer[4 * i + 0];
-		    Matrix<float, 3, 1> o_p, new_p;
+		    Matrix<float, 3, 1> o_p, new_p, image_temp, image_p;
 		    o_p << x, y, z;
 		    //cout << "new point is: " << rotation_matrix* o_p.cast<double> << endl;
-		    new_p = rotation_matrix.cast<float>() * o_p;
+		    new_p = tate.cast<float>()*rotation_matrix.inverse().cast<float>() * o_p;
+		    image_temp << new_p(0,0), new_p(1,0), 1;
+		    image_p = intrinsic_rotate.cast<float>()*image_temp;
 		    //new_p = temp_matrix.cast<float>() * o_p;
 		    //new_p = Homography.inverse().cast<float>() * o_p;
 		    ///*
 		    //*/
 		    ///*
 		    float scale = 1.0;
-		    point[0] = scale * new_p(0, 0);
-		    point[1] = scale * new_p(1, 0);
+		    point[0] = scale * new_p(0, 0) + transpose(0, 0);
+		    point[1] = scale * new_p(1, 0) + transpose(1, 0);
 		    point[2] = 0 * new_p(2, 0);
 		    //*/
 		    point[3] = r;
