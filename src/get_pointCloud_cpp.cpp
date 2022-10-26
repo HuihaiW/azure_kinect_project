@@ -102,7 +102,7 @@ int main(int argc, char** argv){
     int matrix_index = 0;
     while(matrix_index < 15){
 	color_intrinsic_matrix[matrix_index] = parameters.v[matrix_index];
-	cout << "the parameter " << matrix_index << " of the matrix is: " << color_intrinsic_matrix[matrix_index] << endl;
+	//cout << "the parameter " << matrix_index << " of the matrix is: " << color_intrinsic_matrix[matrix_index] << endl;
 	matrix_index ++;
     }
 
@@ -116,29 +116,24 @@ int main(int argc, char** argv){
     int index = 0;
 
     Matrix3d Homography, intrinsic_rotate, temp_matrix, rotation_matrix;
-    //Homography << 0.00694, -0.00184, 0.67004, 
-	          -0.00069, 0.00317, 0.74227,
-		  0.0, 0.0, 0.00160;
-
-    //Homography << 0.0143067, -0.00385386, 0.856358, -6.73185e-05, 0.00746237, 0.516135, 2.43995e-07, -5.37434e-06, 0.000985956;
-    //Homography << -0.511637, 0.629602, -0.466258, 0.0223014, 0.0954103, -0.328452, 0.000104113, 0.000889112, -0.000662905;
-    //Homography << -0.504521, 0.628555, 0.471883, 0.108265, 0.00757, 0.335677, 0.000156151, 0.000889, 0.0006899; 
-    //Homography << -0.508861, 0.62868, -0.465, 0.0234815, 0.0963, -0.327516, 0.000107326, 0.00088763, -0.000660675;
-    //Homography << 0.0013353, -0.00115085, 0.715389, 0.00010763, -0.000252427, 0.698723, 1.86851e-07, -1.90316e-06, 0.00117873;
-    //Homography << 0.00178039, -0.00153446, 0.715388, 0.000143507, -0.000336569, 0.698722, 2.49134e-07, -2.53754e-06, 0.00117873;
+    
     Homography << 0.000139809, -0.000187151, 0.815971, -1.88624e-06, -3.60233e-05, 0.578092, -3.35392e-08, -2.5564e-07, 0.00120086;
     intrinsic_rotate << 606.782, 0.0, 643.805,
 		     	0.0, 606.896, 366.084,
 			0.0, 0.0, 1.0;
+
     temp_matrix = intrinsic_rotate.inverse() * Homography;
-    cout << "rotation + transpose = " << temp_matrix << endl;
-    //temp_matrix = intrinsic_rotate.inverse() * Homography*intrinsic_rotate;
-    Matrix<double, 3, 1> R1, R2, R3, transpose;
+
+    Matrix<double, 3, 1> R1, R2, R3, translation;
     R1 << temp_matrix(0, 0), temp_matrix(1, 0), temp_matrix(2,0);
     R2 << temp_matrix(0, 1), temp_matrix(1, 1), temp_matrix(2,1);
     R3 = R1.normalized().cross(R2.normalized());
     rotation_matrix << R1.normalized(), R2.normalized(), R3;
-    transpose << temp_matrix(0,2)/R1.norm(),  temp_matrix(1,2)/R1.norm(), temp_matrix(2,2)/R1.norm();
+    translation << temp_matrix(0,2)/R1.norm(),  temp_matrix(1,2)/R1.norm(), temp_matrix(2,2)/R1.norm();
+    cout << "R1: " << R1.transpose() << endl;
+    cout << "R2: " << R2.transpose() << endl;
+    cout << "R3: " << R3.transpose() << endl;
+    cout << "translation: " << translation.transpose() << endl;
 
 
     
@@ -146,7 +141,7 @@ int main(int argc, char** argv){
     Matrix3d new_coord; 
     new_coord << 1.0, 0.0, 0.0, 0.0, 0.5, 0.87, 0.0, -0.87, 0.5;
     rotation_matrix = new_coord.inverse();
-    */
+    
     
     
 
@@ -158,6 +153,7 @@ int main(int argc, char** argv){
     cout << "rotation coord is: " << rotation_matrix.inverse() << endl;
     
     cout << "transpose is: " << transpose << endl;
+    */
 
     while (true){
 
@@ -189,14 +185,14 @@ int main(int argc, char** argv){
 	    cv_depth = cv::Mat(height, width, CV_16U, (void*)transformed_depthImage.get_buffer(), static_cast<size_t>(transformed_depthImage.get_stride_bytes()));
 	    end = clock();
 	    dur = double(end-start);
-	    cout << "time used for depth to color transformation: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
+	    //cout << "time used for depth to color transformation: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
 
 	    start = clock();
 	    xyzImage = k4aTransformation.depth_image_to_point_cloud(transformed_depthImage, K4A_CALIBRATION_TYPE_COLOR);
 	    end = clock();
 
 	    dur = double(end - start);
-	    cout << "time used for xyz generation: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
+	    //cout << "time used for xyz generation: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
 
 	    start = clock();
 
@@ -209,7 +205,7 @@ int main(int argc, char** argv){
 	    
 	    end = clock();
 	    dur = double(end - start);
-	    cout << "time used for new images and display: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
+	    //cout << "time used for new images and display: " << (dur * 1000 / CLOCKS_PER_SEC) << endl;
 
 	    cout << "creating points" << endl;
 	    cout << "height X width: " << height << "X" << width << endl;
@@ -229,6 +225,8 @@ int main(int argc, char** argv){
 		    constexpr float kMillimeterToMeter = 1.0/1000.0f;
 		    float x = kMillimeterToMeter * static_cast<float>(point_cloud_buffer[3 * i + 0]);
 		    float y = kMillimeterToMeter * static_cast<float>(point_cloud_buffer[3 * i + 1]);
+		    //float x = static_cast<float>(point_cloud_buffer[3 * i + 0]);
+		    //float y = static_cast<float>(point_cloud_buffer[3 * i + 1]);
 		    z = kMillimeterToMeter * z;
 
 		    int r = color_buffer[4 * i + 2];
@@ -237,28 +235,39 @@ int main(int argc, char** argv){
 		    Matrix<float, 3, 1> o_p, new_p, image_temp, image_p;
 		    o_p << x, y, z;
 		    //cout << "new point is: " << rotation_matrix* o_p.cast<double> << endl;
-		    new_p = tate.cast<float>()*rotation_matrix.inverse().cast<float>() * o_p;
-		    image_temp << new_p(0,0), new_p(1,0), 1;
+		    new_p = rotation_matrix.inverse().cast<float>() * o_p;
+		    float image_temp_x = new_p(0, 0) + translation(0, 0) * kMillimeterToMeter;
+		    float image_temp_y = new_p(1, 0) + translation(1, 0) * kMillimeterToMeter;
+		    image_temp << image_temp_x/(translation(2,0)*kMillimeterToMeter), image_temp_y/(translation(2, 0)*kMillimeterToMeter), 1;
 		    image_p = intrinsic_rotate.cast<float>()*image_temp;
-		    //new_p = temp_matrix.cast<float>() * o_p;
-		    //new_p = Homography.inverse().cast<float>() * o_p;
-		    ///*
-		    //*/
-		    ///*
+
+		    float image_x = image_p(0, 0);
+		    float image_y = image_p(1, 0);
+
+		    //cout << "x, y, u, v: " << image_temp(0, 0) << " ;" << image_temp(1, 0) << " ;" << image_x << " ;" << image_y << endl;
+
+		    
 		    float scale = 1.0;
-		    point[0] = scale * new_p(0, 0) + transpose(0, 0);
-		    point[1] = scale * new_p(1, 0) + transpose(1, 0);
-		    point[2] = 0 * new_p(2, 0);
-		    //*/
+		    /*
+		    point[0] = scale * new_p(0, 0) + translation(0,0)*kMillimeterToMeter;
+		    point[1] = scale * new_p(1, 0) + translation(1,0)*kMillimeterToMeter;
+		    point[2] = new_p(2, 0);
+		    */
+		    point[0] = image_x;
+		    point[1] = image_y;
+		    point[2] = 0;
+		    
 		    point[3] = r;
 		    point[4] = g;
 		    point[5] = b;
 
 		    pointcloud.push_back(point);
 		    
-		    point[0] = x;
-		    point[1] = y;
-		    point[2] = z;
+		    //point[0] = x;
+		    //point[1] = y;
+		    //point[2] = z;
+		    //point[0] = scale * new_p(0, 0);
+		    //point[1] = scale * new_p(1, 0);
 		   
 		    //pointcloud.push_back(point);
 		    
