@@ -45,6 +45,7 @@ int main(int argc, char** argv){
     // create a capture
     k4a::capture capture;
     namedWindow("rgb", WINDOW_NORMAL);
+    namedWindow("generated", WINDOW_NORMAL);
 
 
     double dur;
@@ -117,7 +118,8 @@ int main(int argc, char** argv){
 
     Matrix3d Homography, intrinsic_rotate, temp_matrix, rotation_matrix;
     
-    Homography << 0.000139809, -0.000187151, 0.815971, -1.88624e-06, -3.60233e-05, 0.578092, -3.35392e-08, -2.5564e-07, 0.00120086;
+    //Homography << 0.000139809, -0.000187151, 0.815971, -1.88624e-06, -3.60233e-05, 0.578092, -3.35392e-08, -2.5564e-07, 0.00120086;
+    Homography << 0.000540608, -0.000543355, 0.736318, 1.08167e-05, -0.000132894, 0.676634, 2.55567e-08, -8.55258e-07, 0.00114261;
     intrinsic_rotate << 606.782, 0.0, 643.805,
 		     	0.0, 606.896, 366.084,
 			0.0, 0.0, 1.0;
@@ -133,6 +135,7 @@ int main(int argc, char** argv){
     cout << "R1: " << R1.transpose() << endl;
     cout << "R2: " << R2.transpose() << endl;
     cout << "R3: " << R3.transpose() << endl;
+    translation = rotation_matrix.inverse()*translation;
     cout << "translation: " << translation.transpose() << endl;
 
 
@@ -215,6 +218,8 @@ int main(int argc, char** argv){
 	    const uint8_t* color_buffer = rgbImage.get_buffer();
 	    const size_t pointcount = xyzImage.get_height_pixels() * xyzImage.get_width_pixels(); 
 
+	    //create image with size of 1280X720 (width, height)
+	    Mat generated_image(360, 640, CV_8UC3, Scalar(0,0,0));
 	    for(size_t i = 0; i < pointcount; i++){
 		float z = static_cast<float>(point_cloud_buffer[3 * i + 2]);
 		if (z <= 0.0f || z ==0){
@@ -228,6 +233,8 @@ int main(int argc, char** argv){
 		    //float x = static_cast<float>(point_cloud_buffer[3 * i + 0]);
 		    //float y = static_cast<float>(point_cloud_buffer[3 * i + 1]);
 		    z = kMillimeterToMeter * z;
+		    x = x;
+		    y = y;
 
 		    int r = color_buffer[4 * i + 2];
 		    int g = color_buffer[4 * i + 1];
@@ -236,73 +243,94 @@ int main(int argc, char** argv){
 		    o_p << x, y, z;
 		    //cout << "new point is: " << rotation_matrix* o_p.cast<double> << endl;
 		    new_p = rotation_matrix.inverse().cast<float>() * o_p;
-		    float image_temp_x = new_p(0, 0) + translation(0, 0) * kMillimeterToMeter;
-		    float image_temp_y = new_p(1, 0) + translation(1, 0) * kMillimeterToMeter;
-		    image_temp << image_temp_x/(translation(2,0)*kMillimeterToMeter), image_temp_y/(translation(2, 0)*kMillimeterToMeter), 1;
+		    float image_temp_x = new_p(0, 0) - translation(0, 0) * kMillimeterToMeter;
+		    float image_temp_y = new_p(1, 0) - translation(1, 0) * kMillimeterToMeter;
+		    float image_temp_z = translation(2, 0) * kMillimeterToMeter;
+		    //float image_temp_z = new_p(2, 0) - translation(2, 0) * kMillimeterToMeter;
+		    image_temp << image_temp_x/image_temp_z, image_temp_y/image_temp_z, 1;
+		    
 		    image_p = intrinsic_rotate.cast<float>()*image_temp;
 
+		    int image_x = static_cast<int>(image_p(0, 0)/2);
+		    int image_y = static_cast<int>(image_p(1, 0)/2);
+
+		    if(image_y<0) continue;
+		    if(image_x<0) continue;
+		    if(image_x>640) continue;
+		    if(image_y>360) continue;
+		    
+		    generated_image.at<Vec3b>(image_y, image_x)[0] = b;
+		    generated_image.at<Vec3b>(image_y, image_x)[1] = g;
+		    generated_image.at<Vec3b>(image_y, image_x)[2] = r;
+
+		    /*
+		     * image_p is the generated image from points, three values are x, y, z location of point in image
+		     * image_temp is the new_p translated to the origin x, y location, but with z equal to height of the camera
+		     * new_p is the point cloud converted perpenticularly to the ground.
+		     */
+
+		    //The following codes are used to show point clouds
+		    /*
 		    float image_x = image_p(0, 0);
 		    float image_y = image_p(1, 0);
+
+		    if(image_y<0) continue;
+		    if(image_x<0) continue;
+		    if(image_x>1280) continue;
+		    if(image_y>720) continue;
 
 		    //cout << "x, y, u, v: " << image_temp(0, 0) << " ;" << image_temp(1, 0) << " ;" << image_x << " ;" << image_y << endl;
 
 		    
 		    float scale = 1.0;
-		    /*
-		    point[0] = scale * new_p(0, 0) + translation(0,0)*kMillimeterToMeter;
-		    point[1] = scale * new_p(1, 0) + translation(1,0)*kMillimeterToMeter;
-		    point[2] = new_p(2, 0);
+		    
+		    point[0] = image_x;
+		    point[1] = image_y;
+		    point[2] = e_z;
 		    */
+		   /* 
+		    point[0] = scale * new_p(0, 0);
+		    point[1] = scale * new_p(1, 0);
+		    point[2] = 0*new_p(2, 0);
+		    */
+		    
+		   /* 
 		    point[0] = image_x;
 		    point[1] = image_y;
 		    point[2] = 0;
-		    
+		    */
+		    /*
 		    point[3] = r;
 		    point[4] = g;
 		    point[5] = b;
 
 		    pointcloud.push_back(point);
+		    */
 		    
-		    //point[0] = x;
-		    //point[1] = y;
-		    //point[2] = z;
-		    //point[0] = scale * new_p(0, 0);
-		    //point[1] = scale * new_p(1, 0);
-		   
-		    //pointcloud.push_back(point);
-		    
-		    //cout << "rgb: " << r << ", " << g << ", " << b << "," << endl;
-		    //cout << "xyz: " << x << ", " << y << ", " << z << "," << endl;
+		    /*
+		    point[0] = scale * new_p(0, 0);
+		    point[1] = scale * new_p(1, 0);
+		    point[2] = 0*new_p(2, 0);
+		    pointcloud.push_back(point);
+		    */
+		    /*
+		    point[0] = x;
+		    point[1] = y;
+		    point[2] = z;
+		    pointcloud.push_back(point);
+		    */
 		}
 	    }
 	    
 
-	    showPointCloud(pointcloud);
+	    //showPointCloud(pointcloud);
+	    //
+	    Mat resized_down;
+	    resize(generated_image, resized_down, Size(180, 320), INTER_LINEAR);
+	    imshow("generated", resized_down);
 
-	    /*
 
-	    for(int i = 0; i < height; i++){
-		for(int j = 0; j < width; j++){
-		    int r = cv_rgbImage_no_alpha.at<Vec3d>(i, j)[1];
-		    int g = cv_rgbImage_no_alpha.at<Vec3d>(i, j)[2];
-		    int b = cv_rgbImage_no_alpha.at<Vec3d>(i, j)[3];
-		    int x = cv_depth.at<Vec3d>(i, j)[0];
-		    int y = cv_depth.at<Vec3d>(i, j)[1];
-		    int z = cv_depth.at<Vec3d>(i, j)[2];
-		    cout << "rgb: " << r << ", " << g << ", " << b << "," << endl;
-		    cout << "xyz: " << x << ", " << y << ", " << z << "," << endl;
-		}
-	    }
-	    */
-
-	    /*rgbImage.release();
-	    depthImage.release();
-	    capture.release();
-	    xyzImage.release();
-	    */
 	    capture.reset();
-	 
-
 	    
 	    if(cv::waitKey(10) == 'q'){
 
