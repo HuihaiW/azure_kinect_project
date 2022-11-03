@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
 
 using namespace std;
 using namespace cv;
@@ -218,6 +219,22 @@ int main(int argc, char** argv){
 	    const uint8_t* color_buffer = rgbImage.get_buffer();
 	    const size_t pointcount = xyzImage.get_height_pixels() * xyzImage.get_width_pixels(); 
 
+	    const int new_height = 921600;
+	    const int xyz_height=xyzImage.get_height_pixels();
+	    vector<float> new_vector(point_cloud_buffer, point_cloud_buffer + pointcount);
+	    cout << "vector sizi is: " << new_vector.size() << endl;
+	    //MatrixXf test = Map<Matrix<float, new_height, 3> >(new_vector.data());
+	    
+
+	    //int16_t new_buffer[xyz_height][3];
+	    //new_buffer = point_cloud_buffer;
+	    //cout << "buffer is: " << test(1000,0) << " ; " << test(1000, 1) << " ; " << test(1000, 2) <<  endl;
+
+
+	    
+	    
+
+	    cout << "type of buffer is:" << typeid(&point_cloud_buffer).name() << endl;
 	    //create image with size of 1280X720 (width, height)
 	    Mat generated_image(360, 640, CV_8UC3, Scalar(0,0,0));
 	    for(size_t i = 0; i < pointcount; i++){
@@ -226,6 +243,7 @@ int main(int argc, char** argv){
 		    continue;
 		}
 		else{
+		    continue;
 		    Vector6d point;
 		    constexpr float kMillimeterToMeter = 1.0/1000.0f;
 		    float x = kMillimeterToMeter * static_cast<float>(point_cloud_buffer[3 * i + 0]);
@@ -235,12 +253,15 @@ int main(int argc, char** argv){
 		    z = kMillimeterToMeter * z;
 		    x = x;
 		    y = y;
+		    //cout << x << " , " << y << " , " << z << " , " << endl;
 
 		    int r = color_buffer[4 * i + 2];
 		    int g = color_buffer[4 * i + 1];
 		    int b = color_buffer[4 * i + 0];
-		    Matrix<float, 3, 1> o_p, new_p, image_temp, image_p;
-		    o_p << x, y, z;
+
+		    //Matrix<float, 3, 1> o_p, new_p, image_temp, image_p;
+		    //o_p << x, y, z;
+		    /*
 		    //cout << "new point is: " << rotation_matrix* o_p.cast<double> << endl;
 		    new_p = rotation_matrix.inverse().cast<float>() * o_p;
 		    float image_temp_x = new_p(0, 0) - translation(0, 0) * kMillimeterToMeter;
@@ -262,6 +283,7 @@ int main(int argc, char** argv){
 		    generated_image.at<Vec3b>(image_y, image_x)[0] = b;
 		    generated_image.at<Vec3b>(image_y, image_x)[1] = g;
 		    generated_image.at<Vec3b>(image_y, image_x)[2] = r;
+		    */
 
 		    /*
 		     * image_p is the generated image from points, three values are x, y, z location of point in image
@@ -299,13 +321,13 @@ int main(int argc, char** argv){
 		    point[1] = image_y;
 		    point[2] = 0;
 		    */
-		    /*
+		    
 		    point[3] = r;
 		    point[4] = g;
 		    point[5] = b;
 
-		    pointcloud.push_back(point);
-		    */
+		    //pointcloud.push_back(point);
+		   
 		    
 		    /*
 		    point[0] = scale * new_p(0, 0);
@@ -313,21 +335,21 @@ int main(int argc, char** argv){
 		    point[2] = 0*new_p(2, 0);
 		    pointcloud.push_back(point);
 		    */
-		    /*
+		    
 		    point[0] = x;
 		    point[1] = y;
 		    point[2] = z;
-		    pointcloud.push_back(point);
-		    */
+		    //pointcloud.push_back(point);
+		    
 		}
 	    }
 	    
 
 	    //showPointCloud(pointcloud);
 	    //
-	    Mat resized_down;
-	    resize(generated_image, resized_down, Size(180, 320), INTER_LINEAR);
-	    imshow("generated", resized_down);
+	    //Mat resized_down;
+	    //resize(generated_image, resized_down, Size(180, 320), INTER_LINEAR);
+	    //imshow("generated", resized_down);
 
 
 	    capture.reset();
