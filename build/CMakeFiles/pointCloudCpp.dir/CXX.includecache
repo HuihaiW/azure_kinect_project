@@ -803,6 +803,8 @@ stdio.h
 -
 stdlib.h
 -
+vector
+-
 
 /usr/include/eigen3/Eigen/Cholesky
 Core
