@@ -92,6 +92,7 @@ int main(int argc, char** argv){
     cv::Mat cv_depth_8U;
     cv::Mat cv_irImage;
     cv::Mat cv_irImage_8U;
+    cv::Mat cv_point_loc;
 
     start = clock();
     k4a::calibration k4aCalibration = device.get_calibration(config.depth_mode, config.color_resolution);
@@ -224,6 +225,13 @@ int main(int argc, char** argv){
 	    vector<float> new_vector(point_cloud_buffer, point_cloud_buffer + pointcount);
 	    cout << "vector sizi is: " << new_vector.size() << endl;
 	    //MatrixXf test = Map<Matrix<float, new_height, 3> >(new_vector.data());
+	    cv_point_loc = Mat(xyzImage.get_height_pixels(), xyzImage.get_width_pixels(), CV_16SC3, (void *)xyzImage.get_buffer());
+	    for(size_t i=0; i<xyzImage.get_height_pixels(); i++){
+		for(size_t j=0; j<xyzImage.get_width_pixels(); j++){
+		    cout << cv_point_loc.at<short>(i, j, 0) << " ; " <<  cv_point_loc.at<short>(i, j, 0) << " ; " <<  cv_point_loc.at<short>(i, j, 0) << " ; " << endl;
+		    cout << endl;
+		}
+	    }
 	    
 
 	    //int16_t new_buffer[xyz_height][3];
