@@ -19,7 +19,8 @@ using namespace cv;
 using namespace Eigen;
 
 typedef Eigen::Matrix<double, 6, 1> Vector6d;
-void showPointCloud(const vector<Vector6d, Eigen::aligned_allocator<Vector6d>> &pointcloud);
+//void showPointCloud(const vector<Vector6d, Eigen::aligned_allocator<Vector6d>> &pointcloud);
+void showPointCloud(const Mat pointcloud);
 
 
 int main(int argc, char** argv){
@@ -92,6 +93,7 @@ int main(int argc, char** argv){
     cv::Mat cv_depth_8U;
     cv::Mat cv_irImage;
     cv::Mat cv_irImage_8U;
+    cv::Mat cv_location;
 
     start = clock();
     k4a::calibration k4aCalibration = device.get_calibration(config.depth_mode, config.color_resolution);
@@ -221,9 +223,26 @@ int main(int argc, char** argv){
 
 	    const int new_height = 921600;
 	    const int xyz_height=xyzImage.get_height_pixels();
-	    vector<float> new_vector(point_cloud_buffer, point_cloud_buffer + pointcount);
-	    cout << "vector sizi is: " << new_vector.size() << endl;
-	    //MatrixXf test = Map<Matrix<float, new_height, 3> >(new_vector.data());
+	    vector<double> point_cloud_vector(point_cloud_buffer, point_cloud_buffer + 3*pointcount);
+	    //vector<int> image_vector(color_buffer, color_buffer+3*pointcount);
+	    //vector<double> new_vector1=new_vector;
+	    //VectorXd new_eigen_vector = Map<VectorXd>(new_vector.data(), new_vector.size());
+	    //Map<MatrixXd> new_matrix(new_eigen_vector.data(), Dynamic, 3);
+	    //cout << "vector sizi is: " << new_vector.size() << endl;
+	    MatrixXd pointsLocation = Map<Matrix<double,  3,new_height,  ColMajor>>(point_cloud_vector.data());
+	    //MatrixXi colors = Map<Matrix<int, new_height, 3, RowMajor>>(image_vector.data());
+	    //MatrixXd newLocation= rotation_matrix.inverse()*pointsLocation;
+	    cv_location = cv::Mat(xyzImage.get_height_pixels(),xyzImage.get_width_pixels(),  CV_16SC3, (void *)xyzImage.get_buffer());
+	    cv_location = cv_location.reshape(1, 3);
+	    cout << "shape: " << cv_location.rows << " x " << cv_location.cols  << endl;
+	    
+	    for(size_t i=0; i<pointcount; i++){
+		//cout << cv_location.at<double>(0, i) << " ; "  <<cv_location.at<int>(0,i) << endl;
+		
+		cout << cv_location.at<short>(0, i)<< " ; " << cv_location.at<short>(1,i) << " ; " << cv_location.at<short>(2,i) << " ; "  <<pointsLocation(0,i) << endl;
+
+	    }
+	    
 	    
 
 	    //int16_t new_buffer[xyz_height][3];
@@ -231,18 +250,19 @@ int main(int argc, char** argv){
 	    //cout << "buffer is: " << test(1000,0) << " ; " << test(1000, 1) << " ; " << test(1000, 2) <<  endl;
 
 
-	    
-	    
 
-	    cout << "type of buffer is:" << typeid(&point_cloud_buffer).name() << endl;
 	    //create image with size of 1280X720 (width, height)
-	    Mat generated_image(360, 640, CV_8UC3, Scalar(0,0,0));
-	    for(size_t i = 0; i < pointcount; i++){
-		float z = static_cast<float>(point_cloud_buffer[3 * i + 2]);
-		if (z <= 0.0f || z ==0){
+	    //Mat generated_image(360, 640, CV_8UC3, Scalar(0,0,0));
+/*	    for(size_t i = 0; i < pointcount; i++){
+		//float z = static_cast<float>(point_cloud_buffer[3 * i + 2]);
+		double z=pointsLocation(i,2);
+		if (z <= 0.0 || z ==0){
 		    continue;
 		}
 		else{
+		    //cout << colors(i, 0) << " ; " << colors(i, 1) << " ; " << colors(i, 2) << endl;
+
+		    
 		    continue;
 		    Vector6d point;
 		    constexpr float kMillimeterToMeter = 1.0/1000.0f;
@@ -258,7 +278,7 @@ int main(int argc, char** argv){
 		    int r = color_buffer[4 * i + 2];
 		    int g = color_buffer[4 * i + 1];
 		    int b = color_buffer[4 * i + 0];
-
+*/
 		    //Matrix<float, 3, 1> o_p, new_p, image_temp, image_p;
 		    //o_p << x, y, z;
 		    /*
@@ -322,9 +342,9 @@ int main(int argc, char** argv){
 		    point[2] = 0;
 		    */
 		    
-		    point[3] = r;
-		    point[4] = g;
-		    point[5] = b;
+		    //point[3] = r;
+		    //point[4] = g;
+		    //point[5] = b;
 
 		    //pointcloud.push_back(point);
 		   
@@ -336,16 +356,16 @@ int main(int argc, char** argv){
 		    pointcloud.push_back(point);
 		    */
 		    
-		    point[0] = x;
-		    point[1] = y;
-		    point[2] = z;
+		    //point[0] = x;
+		    //point[1] = y;
+		    //point[2] = z;
 		    //pointcloud.push_back(point);
 		    
-		}
-	    }
+		//}
+	    //}
 	    
 
-	    //showPointCloud(pointcloud);
+	    showPointCloud(cv_location);
 	    //
 	    //Mat resized_down;
 	    //resize(generated_image, resized_down, Size(180, 320), INTER_LINEAR);
@@ -375,7 +395,9 @@ int main(int argc, char** argv){
     
 }
 
-void showPointCloud(const vector<Vector6d, Eigen::aligned_allocator<Vector6d>> &pointcloud) {
+//void showPointCloud(const vector<Vector6d, Eigen::aligned_allocator<Vector6d>> &pointcloud) {
+/*
+void showPointCloud(const Mat) {
 
     if (pointcloud.empty()) {
         cerr << "Point cloud is empty!" << endl;
@@ -413,4 +435,37 @@ void showPointCloud(const vector<Vector6d, Eigen::aligned_allocator<Vector6d>> &
         usleep(5000);   // sleep 5 ms
     }
 }
+*/
+void showPointCloud(const Mat pointcloud) {
 
+    pangolin::CreateWindowAndBind("Point Cloud Viewer", 3840, 2160);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    pangolin::OpenGlRenderState s_cam(
+        pangolin::ProjectionMatrix(1024, 768, 500, 500, 512, 389, 0.1, 1000),
+        pangolin::ModelViewLookAt(0, -0.1, -1.8, 0, 0, 0, 0.0, -1.0, 0.0)
+    );
+
+    pangolin::View &d_cam = pangolin::CreateDisplay()
+        .SetBounds(0.0, 1.0, pangolin::Attach::Pix(175), 1.0, -1024.0f / 768.0f)
+        .SetHandler(new pangolin::Handler3D(s_cam));
+
+    while (pangolin::ShouldQuit() == false) {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        d_cam.Activate(s_cam);
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+        glPointSize(2);
+        glBegin(GL_POINTS);
+        for (int i=0; i++; i<pointcloud.cols) {
+            glColor3f(0/255.0, 255/255.0, 0/255.0);
+            glVertex3d(pointcloud.at<short>(0,i),pointcloud.at<short>(1,i),pointcloud.at<short>(2,i));
+        }
+        glEnd();
+        pangolin::FinishFrame();
+        usleep(5000);   // sleep 5 ms
+    }
+}
