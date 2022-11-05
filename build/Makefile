@@ -137,6 +137,19 @@ pointCloud/fast:
 .PHONY : pointCloud/fast
 
 #=============================================================================
+# Target rules for targets named pointCloudCppCV
+
+# Build rule for target.
+pointCloudCppCV: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pointCloudCppCV
+.PHONY : pointCloudCppCV
+
+# fast build rule for target.
+pointCloudCppCV/fast:
+	$(MAKE) -f CMakeFiles/pointCloudCppCV.dir/build.make CMakeFiles/pointCloudCppCV.dir/build
+.PHONY : pointCloudCppCV/fast
+
+#=============================================================================
 # Target rules for targets named images
 
 # Build rule for target.
@@ -230,6 +243,33 @@ src/get_pointCloud_cpp.cpp.s:
 	$(MAKE) -f CMakeFiles/pointCloudCpp.dir/build.make CMakeFiles/pointCloudCpp.dir/src/get_pointCloud_cpp.cpp.s
 .PHONY : src/get_pointCloud_cpp.cpp.s
 
+src/get_pointCloud_cpp_cv.o: src/get_pointCloud_cpp_cv.cpp.o
+
+.PHONY : src/get_pointCloud_cpp_cv.o
+
+# target to build an object file
+src/get_pointCloud_cpp_cv.cpp.o:
+	$(MAKE) -f CMakeFiles/pointCloudCppCV.dir/build.make CMakeFiles/pointCloudCppCV.dir/src/get_pointCloud_cpp_cv.cpp.o
+.PHONY : src/get_pointCloud_cpp_cv.cpp.o
+
+src/get_pointCloud_cpp_cv.i: src/get_pointCloud_cpp_cv.cpp.i
+
+.PHONY : src/get_pointCloud_cpp_cv.i
+
+# target to preprocess a source file
+src/get_pointCloud_cpp_cv.cpp.i:
+	$(MAKE) -f CMakeFiles/pointCloudCppCV.dir/build.make CMakeFiles/pointCloudCppCV.dir/src/get_pointCloud_cpp_cv.cpp.i
+.PHONY : src/get_pointCloud_cpp_cv.cpp.i
+
+src/get_pointCloud_cpp_cv.s: src/get_pointCloud_cpp_cv.cpp.s
+
+.PHONY : src/get_pointCloud_cpp_cv.s
+
+# target to generate assembly for a file
+src/get_pointCloud_cpp_cv.cpp.s:
+	$(MAKE) -f CMakeFiles/pointCloudCppCV.dir/build.make CMakeFiles/pointCloudCppCV.dir/src/get_pointCloud_cpp_cv.cpp.s
+.PHONY : src/get_pointCloud_cpp_cv.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -240,6 +280,7 @@ help:
 	@echo "... pointCloudCpp"
 	@echo "... edit_cache"
 	@echo "... pointCloud"
+	@echo "... pointCloudCppCV"
 	@echo "... images"
 	@echo "... src/get_images.o"
 	@echo "... src/get_images.i"
@@ -250,6 +291,9 @@ help:
 	@echo "... src/get_pointCloud_cpp.o"
 	@echo "... src/get_pointCloud_cpp.i"
 	@echo "... src/get_pointCloud_cpp.s"
+	@echo "... src/get_pointCloud_cpp_cv.o"
+	@echo "... src/get_pointCloud_cpp_cv.i"
+	@echo "... src/get_pointCloud_cpp_cv.s"
 .PHONY : help
 
 

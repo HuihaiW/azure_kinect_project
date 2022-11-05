@@ -55,6 +55,7 @@ CMAKE_BINARY_DIR = /home/uil/azure_kinect_project/build
 # The main recursive "all" target.
 all: CMakeFiles/pointCloudCpp.dir/all
 all: CMakeFiles/pointCloud.dir/all
+all: CMakeFiles/pointCloudCppCV.dir/all
 all: CMakeFiles/images.dir/all
 
 .PHONY : all
@@ -67,6 +68,7 @@ preinstall:
 # The main recursive "clean" target.
 clean: CMakeFiles/pointCloudCpp.dir/clean
 clean: CMakeFiles/pointCloud.dir/clean
+clean: CMakeFiles/pointCloudCppCV.dir/clean
 clean: CMakeFiles/images.dir/clean
 
 .PHONY : clean
@@ -124,6 +126,33 @@ pointCloud: CMakeFiles/pointCloud.dir/rule
 CMakeFiles/pointCloud.dir/clean:
 	$(MAKE) -f CMakeFiles/pointCloud.dir/build.make CMakeFiles/pointCloud.dir/clean
 .PHONY : CMakeFiles/pointCloud.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/pointCloudCppCV.dir
+
+# All Build rule for target.
+CMakeFiles/pointCloudCppCV.dir/all:
+	$(MAKE) -f CMakeFiles/pointCloudCppCV.dir/build.make CMakeFiles/pointCloudCppCV.dir/depend
+	$(MAKE) -f CMakeFiles/pointCloudCppCV.dir/build.make CMakeFiles/pointCloudCppCV.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/uil/azure_kinect_project/build/CMakeFiles --progress-num=7,8 "Built target pointCloudCppCV"
+.PHONY : CMakeFiles/pointCloudCppCV.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/pointCloudCppCV.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/uil/azure_kinect_project/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/pointCloudCppCV.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/uil/azure_kinect_project/build/CMakeFiles 0
+.PHONY : CMakeFiles/pointCloudCppCV.dir/rule
+
+# Convenience name for target.
+pointCloudCppCV: CMakeFiles/pointCloudCppCV.dir/rule
+
+.PHONY : pointCloudCppCV
+
+# clean rule for target.
+CMakeFiles/pointCloudCppCV.dir/clean:
+	$(MAKE) -f CMakeFiles/pointCloudCppCV.dir/build.make CMakeFiles/pointCloudCppCV.dir/clean
+.PHONY : CMakeFiles/pointCloudCppCV.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/images.dir
