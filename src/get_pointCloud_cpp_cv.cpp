@@ -312,11 +312,11 @@ int main(int argc, char** argv){
 		point[4] = g;
 		point[5] = r;
 		
-		pointcloud.push_back(point);
+	//	pointcloud.push_back(point);
 	    }
 	    
-	    showPointCloud(pointcloud);
-	    
+	  //  showPointCloud(pointcloud);
+	   
 
 	    //int16_t new_buffer[xyz_height][3];
 	    //new_buffer = point_cloud_buffer;
