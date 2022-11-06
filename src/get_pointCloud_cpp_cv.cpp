@@ -45,7 +45,9 @@ int main(int argc, char** argv){
     // create a capture
     k4a::capture capture;
     namedWindow("rgb", WINDOW_NORMAL);
-    namedWindow("generated", WINDOW_NORMAL);
+    namedWindow("generated_low", WINDOW_NORMAL);
+    namedWindow("generated_high", WINDOW_NORMAL);
+    namedWindow("resized_high", WINDOW_NORMAL);
 
 
     double dur;
@@ -284,13 +286,14 @@ int main(int argc, char** argv){
 	    cv_location = cv_K * cv_location;
 	    
 
+    	    Mat generated_image_low(180, 320, CV_8UC3, Scalar(0,0,0));
+    	    Mat generated_image_high(360, 640, CV_8UC3, Scalar(0,0,0));
+    	    Mat resized_image_high(360, 640, CV_8UC3, Scalar(0,0,0));
+	    Mat mask(360, 640, CV_8UC1, Scalar(0));
 
 	    
 	    
 	    for(size_t i=0; i<pointcount; i++){
-		//cout << cv_location.at<double>(0, i) << " ; "  <<cv_location.at<int>(0,i) << endl;
-		
-		//cout << cv_location.at<double>(0, i)<< " ; " << cv_location.at<double>(1,i) << " ; " << cv_location.at<double>(2,i) << " ; "  << endl;
 
 		double x = cv_location.at<double>(0, i);
 		double y = cv_location.at<double>(1, i);
@@ -299,157 +302,37 @@ int main(int argc, char** argv){
 		int r = cv_rgb.at<uchar>(0, i);
 		int g = cv_rgb.at<uchar>(1, i);
 		int b = cv_rgb.at<uchar>(2, i);
-		Vector6d point;
 		
 		if(x>1280) continue;
 		if(x<0) continue;
-		if(y>1280)continue;
+		if(y>720)continue;
 		if(y<0)continue;
-		point[0] = x/1000;
-		point[1] = y/1000;
-		point[2] = z;
-		point[3] = b;
-		point[4] = g;
-		point[5] = r;
+
+		double scale_image = 4.0;
+		int i_x = static_cast<int>(x/scale_image);
+		int i_y = static_cast<int>(y/scale_image);
+		generated_image_low.at<Vec3b>(i_y, i_x)[0] = r;
+		generated_image_low.at<Vec3b>(i_y, i_x)[1] = g;
+		generated_image_low.at<Vec3b>(i_y, i_x)[2] = b;
 		
-	//	pointcloud.push_back(point);
+                scale_image = 2.0;
+		i_x = static_cast<int>(x/scale_image);
+		i_y = static_cast<int>(y/scale_image);
+		generated_image_high.at<Vec3b>(i_y, i_x)[0] = r;
+		generated_image_high.at<Vec3b>(i_y, i_x)[1] = g;
+		generated_image_high.at<Vec3b>(i_y, i_x)[2] = b;
+		mask.at<uchar>(i_y,i_x)=255;
+
+
 	    }
-	    
-	  //  showPointCloud(pointcloud);
-	   
 
-	    //int16_t new_buffer[xyz_height][3];
-	    //new_buffer = point_cloud_buffer;
-	    //cout << "buffer is: " << test(1000,0) << " ; " << test(1000, 1) << " ; " << test(1000, 2) <<  endl;
-
-
-
-	    //create image with size of 1280X720 (width, height)
-	    //Mat generated_image(360, 640, CV_8UC3, Scalar(0,0,0));
-	    /*for(size_t i = 0; i < pointcount; i++){
-		float x = static_cast<float>(point_cloud_buffer[3 * i + 0]);
-		float y = static_cast<float>(point_cloud_buffer[3 * i + 1]);
-		float z = static_cast<float>(point_cloud_buffer[3 * i + 2]);
-		//double z=pointsLocation(i,2);
-		//if (z <= 0.0 || z ==0){
-		//    continue;
-		//
-		//}
-		if (z==100000000000000) continue;
-		else{
-		    //cout << colors(i, 0) << " ; " << colors(i, 1) << " ; " << colors(i, 2) << endl;
-
-		    cout <<"opecv MAT: " << cv_location.at<short>(i, 0)<< " ; " << cv_location.at<short>(i,1) << " ; " << cv_location.at<short>(i,2) << "  "  << "slow: " <<  x << " ; " << y << " ; " << z<< endl;
-
-		    
-		    continue;
-		    Vector6d point;
-		    constexpr float kMillimeterToMeter = 1.0/1000.0f;
-		    float x = kMillimeterToMeter * static_cast<float>(point_cloud_buffer[3 * i + 0]);
-		    float y = kMillimeterToMeter * static_cast<float>(point_cloud_buffer[3 * i + 1]);
-		    //float x = static_cast<float>(point_cloud_buffer[3 * i + 0]);
-		    //float y = static_cast<float>(point_cloud_buffer[3 * i + 1]);
-		    z = kMillimeterToMeter * z;
-		    x = x;
-		    y = y;
-		    //cout << x << " , " << y << " , " << z << " , " << endl;
-
-		    int r = color_buffer[4 * i + 2];
-		    int g = color_buffer[4 * i + 1];
-		    int b = color_buffer[4 * i + 0];
-
-		    //Matrix<float, 3, 1> o_p, new_p, image_temp, image_p;
-		    //o_p << x, y, z;
-		    */
-		    /*
-		    //cout << "new point is: " << rotation_matrix* o_p.cast<double> << endl;
-		    new_p = rotation_matrix.inverse().cast<float>() * o_p;
-		    float image_temp_x = new_p(0, 0) - translation(0, 0) * kMillimeterToMeter;
-		    float image_temp_y = new_p(1, 0) - translation(1, 0) * kMillimeterToMeter;
-		    float image_temp_z = translation(2, 0) * kMillimeterToMeter;
-		    //float image_temp_z = new_p(2, 0) - translation(2, 0) * kMillimeterToMeter;
-		    image_temp << image_temp_x/image_temp_z, image_temp_y/image_temp_z, 1;
-		    
-		    image_p = intrinsic_rotate.cast<float>()*image_temp;
-
-		    int image_x = static_cast<int>(image_p(0, 0)/2);
-		    int image_y = static_cast<int>(image_p(1, 0)/2);
-
-		    if(image_y<0) continue;
-		    if(image_x<0) continue;
-		    if(image_x>640) continue;
-		    if(image_y>360) continue;
-		    
-		    generated_image.at<Vec3b>(image_y, image_x)[0] = b;
-		    generated_image.at<Vec3b>(image_y, image_x)[1] = g;
-		    generated_image.at<Vec3b>(image_y, image_x)[2] = r;
-		    */
-
-		    /*
-		     * image_p is the generated image from points, three values are x, y, z location of point in image
-		     * image_temp is the new_p translated to the origin x, y location, but with z equal to height of the camera
-		     * new_p is the point cloud converted perpenticularly to the ground.
-		     */
-
-		    //The following codes are used to show point clouds
-		    /*
-		    float image_x = image_p(0, 0);
-		    float image_y = image_p(1, 0);
-
-		    if(image_y<0) continue;
-		    if(image_x<0) continue;
-		    if(image_x>1280) continue;
-		    if(image_y>720) continue;
-
-		    //cout << "x, y, u, v: " << image_temp(0, 0) << " ;" << image_temp(1, 0) << " ;" << image_x << " ;" << image_y << endl;
-
-		    
-		    float scale = 1.0;
-		    
-		    point[0] = image_x;
-		    point[1] = image_y;
-		    point[2] = e_z;
-		    */
-		   /* 
-		    point[0] = scale * new_p(0, 0);
-		    point[1] = scale * new_p(1, 0);
-		    point[2] = 0*new_p(2, 0);
-		    */
-		    
-		   /* 
-		    point[0] = image_x;
-		    point[1] = image_y;
-		    point[2] = 0;
-		    */
-		    
-		    //point[3] = r;
-		    //point[4] = g;
-		    //point[5] = b;
-
-		    //pointcloud.push_back(point);
-		   
-		    
-		    /*
-		    point[0] = scale * new_p(0, 0);
-		    point[1] = scale * new_p(1, 0);
-		    point[2] = 0*new_p(2, 0);
-		    pointcloud.push_back(point);
-		    */
-		    
-		    //point[0] = x;
-		    //point[1] = y;
-		    //point[2] = z;
-		    //pointcloud.push_back(point);
-		    
-	//	}
-	    //}
+  	    resize(generated_image_low, resized_image_high, Size(640,360), INTER_AREA);
+	    resized_image_high.copyTo(generated_image_high, 255-mask);
 	    
 
-	    //showPointCloud(cv_location, cv_rgb);
-	    //
-	    //Mat resized_down;
-	    //resize(generated_image, resized_down, Size(180, 320), INTER_LINEAR);
-	    //imshow("generated", resized_down);
+	    imshow("generated_low", generated_image_low);
+	    imshow("resized_high", resized_image_high);
+	    imshow("generated_hight", generated_image_high);
 
 
 	    capture.reset();
