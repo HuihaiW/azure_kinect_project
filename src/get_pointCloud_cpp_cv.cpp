@@ -122,9 +122,24 @@ int main(int argc, char** argv){
     
     //Homography << 0.000139809, -0.000187151, 0.815971, -1.88624e-06, -3.60233e-05, 0.578092, -3.35392e-08, -2.5564e-07, 0.00120086;
     Homography << 0.000540608, -0.000543355, 0.736318, 1.08167e-05, -0.000132894, 0.676634, 2.55567e-08, -8.55258e-07, 0.00114261;
-    intrinsic_rotate << 606.782, 0.0, 643.805,
-		     	0.0, 606.896, 366.084,
-			0.0, 0.0, 1.0;
+    intrinsic_rotate << 606.782, 0.0,  643.805,
+		     	0.0, 606.896,  366.084,
+			0.0, 0.0,  1.0;
+    Mat cv_K(3, 4, CV_64FC1);
+    for(int i=0; i<3; i++){
+	for(int j=0; j<4; j++){
+	    if(j==2){
+		cv_K.at<double>(i,j) = 0;
+	    }
+	    else if(j==3){
+		cv_K.at<double>(i,j) = intrinsic_rotate(i,j-1);
+	    }
+	    else{
+	    cv_K.at<double>(i,j) = intrinsic_rotate(i,j);
+	    }
+	}
+    }
+
 
     temp_matrix = intrinsic_rotate.inverse() * Homography;
 
@@ -139,18 +154,27 @@ int main(int argc, char** argv){
     cout << "R3: " << R3.transpose() << endl;
     translation = rotation_matrix.inverse()*translation;
     cout << "translation: " << translation.transpose() << endl;
+    cout << "inversed rotation matrix: " << rotation_matrix.inverse() << endl;
     Mat cv_Rotation(3, 4, CV_64FC1);
     for(int i=0; i<3; i++){
-	cout << "rotation" << i << endl;
 	for(int j=0; j<4; j++){
-	    if(j=3){
-		cv_Rotation.at<float>(i,j)= -1 * translation(i,0);
+	    if(j==3){
+		cv_Rotation.at<double>(i,j)= -1 * translation(i,0);
 	    }
-	    else
-	        cv_Rotation.at<float>(i,j)=rotation_matrix.inverse()(i,j);
+	    else{
+		double rotation_value = 0;
+		rotation_value = rotation_matrix.inverse()(i, j);
+	        cv_Rotation.at<double>(i,j)=rotation_value;
+	    }
 	}
     }
 
+    for (int i=0; i<cv_Rotation.rows; i++){
+	cout << "-------------"<<endl;
+	for(int j=0; j<cv_Rotation.cols; j++){
+	    cout << cv_Rotation.at<double>(i,j)<<endl;
+	}
+    }
 
     
     /*
@@ -252,24 +276,37 @@ int main(int argc, char** argv){
 	    cv_location = cv_location.t();
 	    cv_rgb = cv_rgb.t();
 
-	    cv_location = cv_Rotation * cv_location;
-	    cout << "shape: " << cv_location.rows << " x " << cv_location.cols  << endl;
+	    cv_location.convertTo(cv_location,CV_64FC1);
+
+	    cv_location = (cv_Rotation * cv_location)/translation(2, 0);
+	    Mat row_ones = Mat::ones(1, pointcount, CV_64FC1);
+	    cv_location.push_back(row_ones);
+	    cv_location = cv_K * cv_location;
+	    
+
+
+	    
 	    
 	    for(size_t i=0; i<pointcount; i++){
 		//cout << cv_location.at<double>(0, i) << " ; "  <<cv_location.at<int>(0,i) << endl;
 		
-		cout << cv_location.at<short>(i, 0)<< " ; " << cv_location.at<short>(i,1) << " ; " << cv_location.at<short>(i,2) << " ; "  << endl;
+		//cout << cv_location.at<double>(0, i)<< " ; " << cv_location.at<double>(1,i) << " ; " << cv_location.at<double>(2,i) << " ; "  << endl;
 
-		double x = cv_location.at<short>(0, i)/1000.0;
-		double y = cv_location.at<short>(1, i)/1000.0;
-		double z = cv_location.at<short>(2, i)/1000.0;
+		double x = cv_location.at<double>(0, i);
+		double y = cv_location.at<double>(1, i);
+		//double z = cv_location.at<double>(2, i);
+		double z = 1;
 		int r = cv_rgb.at<uchar>(0, i);
 		int g = cv_rgb.at<uchar>(1, i);
 		int b = cv_rgb.at<uchar>(2, i);
 		Vector6d point;
 		
-		point[0] = x;
-		point[1] = y;
+		if(x>1280) continue;
+		if(x<0) continue;
+		if(y>1280)continue;
+		if(y<0)continue;
+		point[0] = x/1000;
+		point[1] = y/1000;
 		point[2] = z;
 		point[3] = b;
 		point[4] = g;
