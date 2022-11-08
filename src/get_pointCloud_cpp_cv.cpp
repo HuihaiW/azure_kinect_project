@@ -123,11 +123,16 @@ int main(int argc, char** argv){
     Matrix3d Homography, intrinsic_rotate, temp_matrix, rotation_matrix;
     
     //Homography << 0.000139809, -0.000187151, 0.815971, -1.88624e-06, -3.60233e-05, 0.578092, -3.35392e-08, -2.5564e-07, 0.00120086;
-    Homography << 0.000540608, -0.000543355, 0.736318, 1.08167e-05, -0.000132894, 0.676634, 2.55567e-08, -8.55258e-07, 0.00114261;
+    //Homography << 0.000540608, -0.000543355, 0.736318, 1.08167e-05, -0.000132894, 0.676634, 2.55567e-08, -8.55258e-07, 0.00114261;
+    //Homography <<  0.000530757, -0.000537706, 0.706097, 4.45295e-05, -0.000209662, 0.708113,  8.27766e-08, -8.7597e-07, 0.00119099;
+
+    //Homography <<  0.000577036,-0.000556275,0.701894, 7.53814e-05,-0.000200309,0.71228, 1.11737e-07,-8.80059e-07,0.00108064;
+    Homography <<  0.000724782, -0.000644843, 0.705882, 7.69309e-05,-0.000192769, 0.708329, 1.23824e-07,-1.02981e-06, 0.00112925;
+
     intrinsic_rotate << 606.782, 0.0,  643.805,
 		     	0.0, 606.896,  366.084,
 			0.0, 0.0,  1.0;
-    Mat cv_K(3, 4, CV_64FC1);
+    Mat cv_K(4, 4, CV_64FC1);
     for(int i=0; i<3; i++){
 	for(int j=0; j<4; j++){
 	    if(j==2){
@@ -142,6 +147,10 @@ int main(int argc, char** argv){
 	}
     }
 
+    for(int i=0; i<4; i++){
+	cv_K.at<double>(3, i) = 0;
+    }
+    cv_K.at<double>(3, 2) = 1;
 
     temp_matrix = intrinsic_rotate.inverse() * Homography;
 
@@ -177,25 +186,6 @@ int main(int argc, char** argv){
 	    cout << cv_Rotation.at<double>(i,j)<<endl;
 	}
     }
-
-    
-    /*
-    Matrix3d new_coord; 
-    new_coord << 1.0, 0.0, 0.0, 0.0, 0.5, 0.87, 0.0, -0.87, 0.5;
-    rotation_matrix = new_coord.inverse();
-    
-    
-    
-
-
-    cout << "The temp_matrix is: " << temp_matrix << endl;
-    cout << "R1 is: " << R1 << endl;
-    cout << "R2 is: " << R2 << endl;
-    cout << "R3 is: " << R3 << endl;
-    cout << "rotation coord is: " << rotation_matrix.inverse() << endl;
-    
-    cout << "transpose is: " << transpose << endl;
-    */
 
     while (true){
 
@@ -259,15 +249,7 @@ int main(int argc, char** argv){
 
 	    const int new_height = 921600;
 	    const int xyz_height=xyzImage.get_height_pixels();
-	    //vector<double> point_cloud_vector(point_cloud_buffer, point_cloud_buffer + 3*pointcount);
-	    //vector<int> image_vector(color_buffer, color_buffer+3*pointcount);
-	    //vector<double> new_vector1=new_vector;
-	    //VectorXd new_eigen_vector = Map<VectorXd>(new_vector.data(), new_vector.size());
-	    //Map<MatrixXd> new_matrix(new_eigen_vector.data(), Dynamic, 3);
-	    //cout << "vector sizi is: " << new_vector.size() << endl;
-	    //MatrixXd pointsLocation = Map<Matrix<double,  new_height, 3,  RowMajor>>(point_cloud_vector.data());
-	    //MatrixXi colors = Map<Matrix<int, new_height, 3, RowMajor>>(image_vector.data());
-	    //MatrixXd newLocation= rotation_matrix.inverse()*pointsLocation;
+
 	    cv_location = cv::Mat(xyzImage.get_height_pixels(),xyzImage.get_width_pixels(),  CV_16SC3, (void *)xyzImage.get_buffer());
 	    cv_location = cv_location.reshape(1, xyzImage.get_height_pixels()*xyzImage.get_width_pixels() );
 	    cv_rgb = cv_rgbImage_no_alpha.reshape(1, cv_rgbImage_no_alpha.rows*cv_rgbImage_no_alpha.cols);
@@ -286,10 +268,12 @@ int main(int argc, char** argv){
 	    cv_location = cv_K * cv_location;
 	    
 
-    	    Mat generated_image_low(180, 320, CV_8UC3, Scalar(0,0,0));
-    	    Mat generated_image_high(360, 640, CV_8UC3, Scalar(0,0,0));
-    	    Mat resized_image_high(360, 640, CV_8UC3, Scalar(0,0,0));
-	    Mat mask(360, 640, CV_8UC1, Scalar(0));
+    	    Mat generated_image_low(180, 360, CV_8UC3, Scalar(0,0,0));
+    	    Mat generated_image_high(360, 720, CV_8UC3, Scalar(0,0,0));
+    	    Mat resized_image_high(360, 720, CV_8UC3, Scalar(0,0,0));
+	    Mat mask(360, 720, CV_8UC1, Scalar(0));
+	    Mat height_high(360, 720, CV_64FC1, Scalar(0));
+	    Mat height_low(180, 360, CV_64FC1, Scalar(0));
 
 	    
 	    
@@ -297,37 +281,46 @@ int main(int argc, char** argv){
 
 		double x = cv_location.at<double>(0, i);
 		double y = cv_location.at<double>(1, i);
-		//double z = cv_location.at<double>(2, i);
-		double z = 1;
+		double z = -1.0 * cv_location.at<double>(3, i);
+
 		int r = cv_rgb.at<uchar>(0, i);
 		int g = cv_rgb.at<uchar>(1, i);
 		int b = cv_rgb.at<uchar>(2, i);
 		
-		if(x>1280) continue;
+		if(x>1440) continue;
 		if(x<0) continue;
 		if(y>720)continue;
 		if(y<0)continue;
 
 		double scale_image = 4.0;
+
 		int i_x = static_cast<int>(x/scale_image);
 		int i_y = static_cast<int>(y/scale_image);
-		generated_image_low.at<Vec3b>(i_y, i_x)[0] = r;
-		generated_image_low.at<Vec3b>(i_y, i_x)[1] = g;
-		generated_image_low.at<Vec3b>(i_y, i_x)[2] = b;
+
+		if(z > height_low.at<double>(i_y, i_x)){
+		    generated_image_low.at<Vec3b>(i_y, i_x)[0] = r;
+		    generated_image_low.at<Vec3b>(i_y, i_x)[1] = g;
+		    generated_image_low.at<Vec3b>(i_y, i_x)[2] = b;
+		    height_low.at<double>(i_y, i_x) = z;
+		}
 		
                 scale_image = 2.0;
 		i_x = static_cast<int>(x/scale_image);
 		i_y = static_cast<int>(y/scale_image);
-		generated_image_high.at<Vec3b>(i_y, i_x)[0] = r;
-		generated_image_high.at<Vec3b>(i_y, i_x)[1] = g;
-		generated_image_high.at<Vec3b>(i_y, i_x)[2] = b;
-		mask.at<uchar>(i_y,i_x)=255;
+		if(z > height_high.at<double>(i_y, i_x)){
+		    generated_image_high.at<Vec3b>(i_y, i_x)[0] = r;
+		    generated_image_high.at<Vec3b>(i_y, i_x)[1] = g;
+		    generated_image_high.at<Vec3b>(i_y, i_x)[2] = b;
+		    height_high.at<double>(i_y, i_x) = z;
+		    mask.at<uchar>(i_y,i_x)=255;
+		}
 
 
 	    }
 
-  	    resize(generated_image_low, resized_image_high, Size(640,360), INTER_AREA);
+  	    resize(generated_image_low, resized_image_high, Size(720,360), INTER_AREA);
 	    resized_image_high.copyTo(generated_image_high, 255-mask);
+	    //blur(generated_image_high,generated_image_high, Size(5,5));
 	    
 
 	    imshow("generated_low", generated_image_low);
